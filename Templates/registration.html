@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--This is the heading with the title-->
+<head>
+  <meta charset="UTF-8">
+  <title>Campus Marketplace</title>
+  <link rel="stylesheet" href="registration.css" />
+</head>
+
+<body>
+<!--Here we've got the logo-->
+  <div class="logo-box">
+    <a href="main.html"><img src="logo.png" class="logo"/></a>
+  </div>
+
+<!--The header with a small paragraph to explain what this page is for-->
+  <h1>Campus Marketplace</h1>
+  <p>Buy and sell within your university community</p>
+
+<!--The main container-->
+  <div class="container">
+
+<!--Here the user can choose whether they'd want to login or register-->
+    <div class="tab-container">
+      <button class="tab active" onclick="showForm('login', event)">Login</button>
+      <button class="tab" onclick="showForm('register', event)">Register</button>
+    </div>
+
+<!--Login form-->
+    <form id="login-form">
+      <label>Username:
+        <input type="text" required>
+      </label>
+
+      <label>Password:
+        <input type="password" required>
+      </label>
+
+      <input type="submit" value="Login">
+    </form>
+
+<!--Registration form-->
+    <form id="register-form" style="display:none;">
+      <label>Full Name:
+        <input type="text" required>
+      </label>
+
+      <label>Email:
+        <input type="email" required>
+      </label>
+
+      <label>Password:
+        <input type="password" required>
+      </label>
+
+      <label><input type="radio" name="type" checked> Buyer </label>
+
+      <label><input type="radio" name="type"> Marketer </label>
+
+      <input type="submit" value="Register">
+    </form>
+
+  </div>
+
+<!--JavaScript code that changes from login form to registeration form-->
+<!--!!!!!!!!!!!This should be moved to an external file!!!!!!!!!!!!!!!!!-->
+  <script>
+    function showForm(form, event) {
+      document.getElementById("login-form").style.display =
+        form === "login" ? "block" : "none";
+
+      document.getElementById("register-form").style.display =
+        form === "register" ? "block" : "none";
+
+      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+      event.target.classList.add("active");
+    }
+  </script>
+
+</body>
+</html>
