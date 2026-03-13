@@ -74,7 +74,7 @@ class ItemPhoto(models.Model):
         return f"Photo for {self.itemID}"
     
 
-class Transacton(models.Model):
+class Transaction(models.Model):
     transactionID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) #primary key
     buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='transactions')
     item = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True, blank=True,related_name='transactions')
