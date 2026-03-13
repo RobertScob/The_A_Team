@@ -1,5 +1,6 @@
 from django.urls import path 
 from campusMarketplace import views
+from accounts import views  
 
 app_name = 'campusMarketplace'
 
