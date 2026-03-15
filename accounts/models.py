@@ -3,6 +3,7 @@ from decimal import Decimal
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator
+from .managers import UserManager
 
 #custom user with UUID primary key and fields from specification
 class User(AbstractUser):
@@ -20,6 +21,8 @@ class User(AbstractUser):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name", "student_id"]
+
+    objects = UserManager()
 
     def __str__(self):
         return f"{self.email}"
