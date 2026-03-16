@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+:root {
+  --main-colour: #F7F4F1;
+  --accent-pink: #ff7ac6;
+  --accent-purple: #8b5cf6;
+}
+
+.logo {
+  width: 80px;
+  height: auto;
+}
+
+.logo-box {
+  width: 90px;
+  height: 90px;
+  background: #ffffff;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+body {
+  flex-direction: column;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: var(--main-colour);
+  color: #03172c;
+}
+
+h1, p {
+  margin: 0.5em auto;
+  text-align: center;
+}
+
+.container {
+  width: 380px;
+  padding: 25px;
+  border-radius: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-top: 10px;
+}
+
+.tab-container {
+  display: flex;
+  width: 100%;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #eee;
+}
+
+.tab {
+  flex: 1;
+  padding: 12px 0;
+  text-align: center;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #777;
+  font-weight: 500;
+}
+
+.tab.active {
+  color: var(--accent-pink);
+  border-bottom: 3px solid var(--accent-pink);
+}
+
+form {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+label {
+  display: block;
+  margin-bottom: 14px;
+  font-size: 14px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 80%;
+  margin: 0 auto;
+  display: block;
+  padding: 10px 12px;
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  font-size: 14px;
+  background-color: #ffffff;
+  color: #03172c;
+}
+
+.inline {
+  width: unset;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+input[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 25px;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  background: linear-gradient(90deg, var(--accent-pink), var(--accent-purple));
+  transition: 0.2s ease;
+}
+
+input[type="submit"]:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
