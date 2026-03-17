@@ -10,9 +10,7 @@ def shop(request):
      return HttpResponse("This is the main page.")
 
 def register(request):
-
      registered = False
-
      if request.method == 'POST':
           user_form = UserForm(request.POST) 
           
