@@ -3,11 +3,13 @@ import os
 import django 
 from decimal import Decimal
 import uuid
-from accounts.models import User
-from market.models import Item, ITEM_STATUS_CHOICES, ITEM_CATEGORY_CHOICES, ItemPhoto, Transaction, TRANSACTION_TYPE_CHOICES
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "The_A_Team.settings")
 django.setup()
+
+from accounts.models import User
+from market.models import Item, ITEM_STATUS_CHOICES, ITEM_CATEGORY_CHOICES, ItemPhoto, Transaction, TRANSACTION_TYPE_CHOICES
+
 
 def createUser(email, firstname, lastname, student_id, balance):
     user, created = User.objects.get_or_create(
@@ -93,5 +95,5 @@ def populate():
 
     print("population complete")
 
-if __name__ == "main":
+if __name__ == "__main__":
     populate()
