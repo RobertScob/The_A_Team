@@ -4,8 +4,6 @@ from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 from .models import (
     Transaction,
-    ITEM_STATUS_CHOICES,
-    TRANSACTION_TYPE_CHOICES
 )
 
 
@@ -15,7 +13,7 @@ def handle_transaction(sender, instance: Transaction, created, **kwargs):
         return
     buyer = instance.buyer
 
-    if instance.type == TRANSACTION_TYPE_CHOICES.TOPUP:
+    if instance.type == "TOPUP":
         buyer.account_balance += instance.amount
         buyer.save(update_fields=["account_balance"])
         return
@@ -24,7 +22,7 @@ def handle_transaction(sender, instance: Transaction, created, **kwargs):
     if item is None:
         raise ValidationError("Purchase must have an item")
     
-    if item.status == ITEM_STATUS_CHOICES.SOLD:
+    if item.status == "SOLD":
         raise ValidationError("Item already sold")
     
     if buyer.account_balance < instance.amount:
@@ -36,7 +34,7 @@ def handle_transaction(sender, instance: Transaction, created, **kwargs):
     buyer.save(update_fields=["account_balance"])
     seller.save(update_fields=["account_balance"])
 
-    item.status = ITEM_STATUS_CHOICES.SOLD
+    item.status = "SOLD"
     item.save(update_fields=["status"])
 
     
