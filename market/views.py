@@ -1,45 +1,72 @@
-from urllib import request
 
-from django.shortcuts import render
-from campusMarketplace.forms import UserForm, UserProfileForm
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login
+from market.forms import UserForm, UserProfileForm
+from django.contrib import messages
 
-# Create your views here.
+def shop(request):
+     return HttpResponse("This is the main page.")
 
 def register(request):
-     
-     registered = False 
 
-     if request.method == 'POST': 
+     registered = False
+
+     if request.method == 'POST':
           user_form = UserForm(request.POST) 
-          profile_form = UserProfileForm(request.POST)  
           
-          if user_form.is_valid() and profile_form.is_valid():
-               user = user_form.save() 
 
-               user.set_password(user.password)
-               user.save() 
-               profile = profile_form.save(commit=False)
-               profile.user = user 
-               
-               if 'profile_photo_url' in request.FILES:
-                    profile.profile_photo_url = request.FILES['profile_photo_url']
+          if user_form.is_valid():
 
-               profile.save() 
-               
-               registered = True 
-            
-            
-          else:      
-               print(user_form.errors, profile_form.errors)
+               user = user_form.save(commit=False) 
+
+               user.set_password(user_form.cleaned_data['password']) 
+               user.save()
+
+               messages.success(request, 
+                                'Registration successful. You can now log in.') 
+               return redirect('campusMarketplace:login')
+
+          else: 
+               print(user_form.errors) 
 
      else:
-            user_form = UserForm()
-            profile_form = UserProfileForm()
+          user_form = UserForm() 
 
-     return render(request, 'market/register.html',context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
-              
-          
+     login_form = AuthenticationForm()
 
-     
-          
+     return render(request, 'campusMarketplace/registration.html', {'user_form': user_form, 
+                                                  'login_form': login_form, 
+                                                  'registered': registered})
 
+
+def user_login(request):
+
+     if request.method == 'POST':
+          form = AuthenticationForm(request, data=request.POST)
+
+          if form.is_valid():
+               login(request, form.get_user())
+               return redirect('campusMarketplace:shop')
+
+     else:
+          form = AuthenticationForm() 
+
+     user_form = UserForm()
+
+     return render(request, 'campusMarketplace/registration.html', {'login_form':form,
+                                                  'user_form': user_form,
+                                                  'registered': False})
+
+               
+
+
+def logout(request):
+     return HttpResponse("This is the logout page.")
+
+def newItem(request):
+     return HttpResponse("This is the new item page.")
+
+def account(request):
+     return HttpResponse("This is the user account page.")

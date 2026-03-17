@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import include
-from campusMarketplace import views
+from market import views
 
 urlpatterns = [
     path('campusMarketplace/', include('campusMarketplace.urls')),
