@@ -46,7 +46,7 @@ def populate():
         seller=robert,
         title="Desk Lamp",
         description="Bright LED desk lamp",
-        category=ITEM_CATEGORY_CHOICES.GADGETS,
+        category=ITEM_CATEGORY_CHOICES.ELECTRONICS,
         price=Decimal("10.00"),
         status=ITEM_STATUS_CHOICES.AVAILABLE,
     )
