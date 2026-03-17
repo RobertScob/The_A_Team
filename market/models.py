@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 
 User = settings.AUTH_USER_MODEL
 
-# ----- Choices (2.2-compatible) -----
+
 ITEM_CATEGORY_CHOICES = (
     ("FURNITURE", "Furniture"),
     ("ELECTRONICS", "Electronics"),

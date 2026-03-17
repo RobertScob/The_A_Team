@@ -46,18 +46,18 @@ def populate():
         seller=robert,
         title="Desk Lamp",
         description="Bright LED desk lamp",
-        category=ITEM_CATEGORY_CHOICES.ELECTRONICS,
+        category="ELECTRONICS",
         price=Decimal("10.00"),
-        status=ITEM_STATUS_CHOICES.AVAILABLE,
+        status="AVAILABLE",
     )
 
     chair = Item.objects.create(
         seller=robert,
         title="Office Chair",
         description="Comfortable black office chair",
-        category=ITEM_CATEGORY_CHOICES.FURNITURE,
+        category="FURNITURE",
         price=Decimal("35.00"),
-        status=ITEM_STATUS_CHOICES.AVAILABLE,
+        status="AVAILABLE",
     )
 
     
@@ -65,9 +65,9 @@ def populate():
         seller=tess,
         title="Glasgow Uni Hoodie",
         description="Blue hoodie, size M",
-        category=ITEM_CATEGORY_CHOICES.CLOTHES,
+        category="CLOTHES",
         price=Decimal("15.00"),
-        status=ITEM_STATUS_CHOICES.AVAILABLE,
+        status="AVAILABLE",
     )
 
     
@@ -78,19 +78,19 @@ def populate():
     # Ore tops up his balance
     Transaction.objects.create(
         buyer=ore,
-        type=TRANSACTION_TYPE_CHOICES.TOPUP,
+        type="TOPUP",
         amount=Decimal("20.00"),
     )
 
     # Ore buys lamp off of Robert
     Transaction.objects.create(
         buyer=ore,
-        type=TRANSACTION_TYPE_CHOICES.PURCHASE,
+        type="PURCHASE",
         amount=Decimal("10.00"),
         item=lamp,
     )
 
-    lamp.status = ITEM_STATUS_CHOICES.SOLD
+    lamp.status = "SOLD"
     lamp.save()
 
     print("population complete")
