@@ -24,7 +24,7 @@ def register(request):
 
                messages.success(request, 
                                 'Registration successful. You can now log in.') 
-               return redirect('campusMarketplace:login')
+               return redirect('market:login')
 
           else: 
                print(user_form.errors) 
@@ -34,7 +34,7 @@ def register(request):
 
      login_form = AuthenticationForm()
 
-     return render(request, 'campusMarketplace/registration.html', {'user_form': user_form, 
+     return render(request, 'market/registration.html', {'user_form': user_form, 
                                                   'login_form': login_form, 
                                                   'registered': registered})
 
@@ -46,14 +46,14 @@ def user_login(request):
 
           if form.is_valid():
                login(request, form.get_user())
-               return redirect('campusMarketplace:shop')
+               return redirect('market:shop')
 
      else:
           form = AuthenticationForm() 
 
      user_form = UserForm()
 
-     return render(request, 'campusMarketplace/registration.html', {'login_form':form,
+     return render(request, 'market/registration.html', {'login_form':form,
                                                   'user_form': user_form,
                                                   'registered': False})
 

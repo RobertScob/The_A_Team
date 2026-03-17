@@ -1,7 +1,7 @@
 from django.urls import path 
 from market import views
 
-app_name = 'campusMarketplace'
+app_name = 'market'
 
 urlpatterns = [
     path('', views.shop, name='shop'),
