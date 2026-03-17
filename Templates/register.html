@@ -1,16 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'market/base.html' %}
 {% load static %}
 
-<!--This is the heading with the title-->
-<head>
-  <meta charset="UTF-8">
-  <title>Campus Marketplace</title>
-  <link rel="stylesheet" href="{% static 'market/registration.css' %}" />
-</head>
+{% block title_block %}
+    Register
+{% endblock %}
 
-<body>
-<!--Here we've got the logo-->
+<!--I'm blocking the header as this page doesn't have a header-->
+{% block header_block %}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'market/register.css' %}">
+{% endblock %}
+
+
+{% block body_block %}
   <div class="logo-box" id="logoBox">
     <a href="{ url 'market:shop' %}"><img src="{% static 'market/logo.png' %}" class="logo"/></a>
   </div>
@@ -84,7 +87,8 @@
 
   </div>
 
-  <script src="register.js"></script>
+{% endblock %}
 
-</body>
-</html>
+{% block extra_js %}
+<script src="{% static 'market/register.js' %}"></script>
+{% endblock %}

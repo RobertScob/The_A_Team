@@ -1,39 +1,20 @@
-{% extends '/base.html'}
+{% extends 'market/base.html' %}
+{% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
+{% block title_block %}
+    Campus Marketplace
+{% endblock %}
 
-<head>
-  <meta charset="UTF-8">
-  <title>Campus Marketplace</title>
-  <link rel="stylesheet" href="purchase.css" />
-</head>
 
-<body>
-<header class="header">
-    <div class="header-left">
-        <a href="shop.html"><img src="logo.png" class="icon"></a>
-        <h3>Campus Marketplace</h3>
-    </div>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'market/shop.css' %}">
+{% endblock %}
 
-    <div class="header-centre">
-        <input type="text" placeholder="Search items..." class="search-bar">
-    </div>
+{% block search_block %}
+<input type="text" placeholder="Search items..." class="search-bar">
+{% endblock %}
 
-    <div class="header-right">
-        <div class="balance">
-            Balance:
-        </div>
-
-        <div class="header-icons">
-            <a href="shop.html"><img src="home.png" class="header-icon"></a>
-            <a href="listing.html"><img src="plus.png" class="header-icon"></a>
-            <a href="account.html"><img src="user.png" class="header-icon"></a>
-            <a href="register.html"><img src="arrow.png" class="header-icon"></a>
-        </div>
-    </div>
-</header>
-
+{% block body_block %}
 
 <div class="marketplace-container">
 
@@ -59,15 +40,15 @@
 
         <div class="item-grid">
 
-            <a href="newItem.html" class="item-card">
+            <a href="{% url 'market:item_detail' 1 %}" class="item-card">
                 <div><img src="" class="item-img"></div>
                 <h4>Gym bag</h4>
                 <p class="seller">Olivia</p>
                 <p class="price">£25</p>
                 <span class="tag">Sports</span>
             </a>
-           
-            <a href="newItem.html" class="item-card">
+
+            <a href="{% url 'market:item_detail' 1 %}" class="item-card">
                 <div><img src="" class="item-img"></div>
                 <h4></h4>
                 <p class="seller"></p>
@@ -75,7 +56,7 @@
                 <span class="tag"></span>
             </a>
 
-            <a href="newItem.html" class="item-card">
+            <a href="{% url 'market:item_detail' 1 %}" class="item-card">
                 <div><img src="" class="item-img"></div>
                 <h4></h4>
                 <p class="seller"></p>
@@ -83,7 +64,7 @@
                 <span class="tag"></span>
             </a>
 
-            <a href="newItem.html" class="item-card">
+            <a href="{% url 'market:item_detail' 1 %}" class="item-card">
                 <div><img src="" class="item-img"></div>
                 <h4></h4>
                 <p class="seller"></p>
@@ -91,7 +72,7 @@
                 <span class="tag"></span>
             </a>
 
-            <a href="newItem.html" class="item-card">
+            <a href="{% url 'market:item_detail' 1 %}" class="item-card">
                 <div><img src="" class="item-img"></div>
                 <h4></h4>
                 <p class="seller"></p>
@@ -99,7 +80,7 @@
                 <span class="tag"></span>
             </a>
 
-            <a href="newItem.html" class="item-card">
+            <a href="{% url 'market:item_detail' 1 %}" class="item-card">
                 <div><img src="" class="item-img"></div>
                 <h4></h4>
                 <p class="seller"></p>
@@ -107,7 +88,7 @@
                 <span class="tag"></span>
             </a>
 
-            <a href="newItem.html" class="item-card">
+            <a href="{% url 'market:item_detail' 1 %}" class="item-card">
                 <div><img src="" class="item-img"></div>
                 <h4></h4>
                 <p class="seller"></p>
@@ -115,15 +96,7 @@
                 <span class="tag"></span>
             </a>
 
-            <a href="newItem.html" class="item-card">
-                <div><img src="" class="item-img"></div>
-                <h4></h4>
-                <p class="seller"></p>
-                <p class="price"></p>
-                <span class="tag"></span>
-            </a>
-            
-            <a href="newItem.html" class="item-card">
+            <a href="{% url 'market:item_detail' 1 %}" class="item-card">
                 <div><img src="" class="item-img"></div>
                 <h4></h4>
                 <p class="seller"></p>
@@ -131,7 +104,15 @@
                 <span class="tag"></span>
             </a>
 
-            <a href="newItem.html" class="item-card">
+            <a href="{% url 'market:item_detail' 1 %}" class="item-card">
+                <div><img src="" class="item-img"></div>
+                <h4></h4>
+                <p class="seller"></p>
+                <p class="price"></p>
+                <span class="tag"></span>
+            </a>
+
+            <a href="{% url 'market:item_detail' 1 %}" class="item-card">
                 <div><img src="" class="item-img"></div>
                 <h4></h4>
                 <p class="seller"></p>
@@ -144,5 +125,4 @@
 
 </div>
 
-</body>
-</html>
+{% endblock %}

@@ -1,34 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="account.css">
-</head>
+{% extends 'market/base.html' %}
+{% load static %}
 
-<body>
+{% block title_block %}
+    Dashboard
+{% endblock %}
 
-<header class="header">
-    <div class="header-left">
-        <a href="shop.html"><img src="logo.png" class="icon"></a>
-        <h3>Campus Marketplace</h3>
-    </div>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'market/account.css' %}">
+{% endblock %}
 
-    <div class="header-centre"></div>
-
-    <div class="header-right">
-        <div class="balance">
-            Balance: <!---->
-        </div>
-
-        <div class="header-icons">
-            <a href="shop.html"><img src="home.png" class="header-icon"></a>
-            <a href="listing.html"><img src="plus.png" class="header-icon"></a>
-            <a href="account.html"><img src="user.png" class="header-icon"></a>
-            <a href="register.html"><img src="arrow.png" class="header-icon"></a>
-        </div>
-    </div>
-</header>
+{% block body_block %}
 
 <div class="dashboard-wrapper">
 
@@ -56,8 +37,8 @@
 
     <div class="profile-card">
         <h3>Profile Information</h3>
-        <p><strong>Username: </strong>lucas07</p>
-        <p><strong>Email: </strong>lucas@outlook.com</p>
+        <p><strong>Username: </strong>{{ login_form.username }}</p>
+        <p><strong>Email: </strong>{{ login_form.password }}</p>
     </div>
 
     <div class="listings-card">
@@ -81,5 +62,4 @@
 
 </div>
 
-</body>
-</html>
+{% endblock %}
