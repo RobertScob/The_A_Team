@@ -34,7 +34,7 @@ def register(request):
 
      login_form = AuthenticationForm()
 
-     return render(request, 'market/registration.html', {'user_form': user_form, 
+     return render(request, 'market/register.html', {'user_form': user_form, 
                                                   'login_form': login_form, 
                                                   'registered': registered})
 
@@ -53,7 +53,7 @@ def user_login(request):
 
      user_form = UserForm()
 
-     return render(request, 'market/registration.html', {'login_form':form,
+     return render(request, 'market/register.html', {'login_form':form,
                                                   'user_form': user_form,
                                                   'registered': False})
 
