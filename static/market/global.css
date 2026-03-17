@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+:root {
+  --main-colour: #F7F4F1;
+  --accent-pink: #ff3eab;
+  --accent-purple: #8b5cf6;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--main-colour);
+}
+
+.header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 15px 30px;
+    background: white;
+    width: 100%;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-centre {
+    display: flex;
+    justify-content: center;
+}
+
+.header-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+}
+
+.icon {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.icon:hover {
+    opacity: 0.8;
+}
+
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.header-icon {
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.header-icon:hover {
+    opacity: 0.7;
+    transform: scale(1.1);
+}
+
+.balance {
+    background: #ffe6f5;
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-weight: 600;
+    color: var(--accent-pink);
+    font-size: 15px;
+    border: 2px solid #ffd0ef;
+}
+
+.secbtn {
+    background-color: var(--accent-pink);
+    color: white;
+    padding: 10px 13px;
+    border-radius: 5px;
+    font-family: 'Inter', sans-serif;
+    transition: 0.2s ease;
+}
+
+.secbtn:hover {
+    background-color: #f2d6ce;
+    color: #333;
+}
+
+.section {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+.section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.section-content {
+    position: relative;
+    z-index: 2;
+}

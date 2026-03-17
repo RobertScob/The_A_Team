@@ -1,34 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Create Listing</title>
-  <link rel="stylesheet" href="listing.css">
-</head>
- 
-<body>
- 
-<header class="header">
-    <div class="header-left">
-        <a href="shop.html"><img src="logo.png" class="icon"></a>
-        <h3>Campus Marketplace</h3>
-    </div>
+{% extends 'market/base.html' %}
+{% load static %}
 
-    <div class="header-centre"></div>
+{% block title_block %}
+    Create Listing
+{% endblock %}
 
-    <div class="header-right">
-        <div class="balance">
-            Balance: <!-- price -->
-        </div>
-
-        <div class="header-icons">
-            <a href="shop.html"><img src="home.png" class="header-icon"></a>
-            <a href="listing.html"><img src="plus.png" class="header-icon"></a>
-            <a href="account.html"><img src="user.png" class="header-icon"></a>
-            <a href="register.html"><img src="arrow.png" class="header-icon"></a>
-        </div>
-    </div>
-</header>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'market/listing.css' %}">
+{% endblock %}
  
 <div class="create-listing-container">
  
@@ -36,7 +15,8 @@
     <p class="subtitle">Share items you want to sell with the campus community</p>
  
     <div class="listing-card">
-        <form>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
  
             <label>Item Title</label>
             <input type="text" placeholder="e.g., Desk Lamp, Winter Jacket, Calculator">
@@ -67,6 +47,4 @@
     </div>
  
 </div>
- 
-</body>
-</html>
+{% endblock %}

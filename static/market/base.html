@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>
+        {% block title_block %}
+            Campus Marketplace
+        {% endblock %}
+    </title>
+    
+    <link rel="stylesheet" href="{% static 'market/global.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+{% block header_block %}
+<header class="header">
+    <div class="header-left">
+        <a href="{% url 'market:shop' %}">
+            <img src="{% static 'market/logo.png' %}" class="icon">
+        </a>
+        <h3>Campus Marketplace</h3>
+    </div>
+
+    <div class="header-centre">
+        {% block search_block %}{% endblock %}
+    </div>
+
+    <div class="header-right">
+        <div class="balance">Balance:</div>
+
+        <div class="header-icons">
+            <a href="{% url 'market:shop' %}">
+                <img src="{% static 'market/home.png' %}" class="header-icon">
+            </a>
+            <a href="{% url 'market:listing' %}">
+                <img src="{% static 'market/plus.png' %}" class="header-icon">
+            </a>
+            <a href="{% url 'market:account' %}">
+                <img src="{% static 'market/user.png' %}" class="header-icon">
+            </a>
+            <a href="{% url 'market:logout' %}">
+                <img src="{% static 'market/arrow.png' %}" class="header-icon">
+            </a>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block body_block %}
+{% endblock %}
+
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>

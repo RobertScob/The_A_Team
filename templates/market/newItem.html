@@ -1,40 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Item Details</title>
-    <link rel="stylesheet" href="newItem.css">
-</head>
+{% extends 'market/base.html' %}
+{% load static %}
 
+{% block title_block %}
+    Item Details
+{% endblock %}
 
-<body>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'market/newItem.css' %}">
+{% endblock %}
 
-<header class="header">
-    <div class="header-left">
-        <a href="shop.html"><img src="logo.png" class="icon"></a>
-        <h3>Campus Marketplace</h3>
-    </div>
-
-    <div class="header-centre"></div>
-
-    <div class="header-right">
-        <div class="balance">
-            Balance: <!---->
-        </div>
-
-        <div class="header-icons">
-            <a href="shop.html"><img src="home.png" class="header-icon"></a>
-            <a href="listing.html"><img src="plus.png" class="header-icon"></a>
-            <a href="account.html"><img src="user.png" class="header-icon"></a>
-            <a href="register.html"><img src="arrow.png" class="header-icon"></a>
-        </div>
-    </div>
-</header>
+{% block body_block %}
 
 <div class="page-wrapper">
     <div class="item-container">
 
-        <div><img src="" class="item-image"></div>
+        <div>
+            <img src="{% static 'market/.png' %}" class="item-image">
+        </div>
         
         <div class="item-details">
 
@@ -51,12 +33,11 @@
 
             <div class="buttons">
                 <button class="purchase-btn">Purchase Now</button>
-                <button class="like-btn"><img src="like.png"></button>
-            </div>
-
+                <button class="like-btn">
+                    <img src="{% static 'market/like.png' %}">
+                </button>
         </div>
     </div>
 </div>
 
-</body>
-</html>
+{% endblock %}
