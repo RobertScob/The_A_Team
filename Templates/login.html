@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--This is the heading with the title-->
+<head>
+  <meta charset="UTF-8">
+  <title>Campus Marketplace</title>
+  <link rel="stylesheet" href="login.css" />
+</head>
+
+<body>
+<!--Here we've got the logo-->
+  <div class="logo-box" id="logoBox">
+    <a href="purchase.html"><img src="logo.png" class="logo"/></a>
+  </div>
+
+<!--The header with a small paragraph to explain what this page is for-->
+  <h1>Campus Marketplace</h1>
+  <p>Buy and sell within your university community</p>
+
+<!--The main container-->
+  <div class="container">
+
+<!--Here the user can choose whether they'd want to login or register-->
+    <div class="tab-wrapper">
+      <button class="tab active" onclick="showForm('login', event)">Login</button>
+      <button class="tab" onclick="showForm('register', event)">Register</button>
+    </div>
+
+<!--Login form-->
+    <form id="login-form">
+      <label>Name
+        <input class="input-field" type="text" placeholder= "Enter your name" required>
+      </label>
+
+      <label>Password
+        <input class="input-field" type="password" placeholder= "Enter your password" required>
+      </label>
+
+      <input type="submit" value="Login">
+    </form>
+
+<!--Registration form-->
+    <form id="register-form" style="display:none;">
+      <label>First name
+        <input class="input-field" type="text" placeholder= "Enter your first name" required>
+      </label>
+
+      <label>Last name
+        <input class="input-field" type="text" placeholder= "Enter your last name" required>
+      </label>
+
+      <label>Email
+        <input class="input-field" type="email" placeholder= "Enter your email" required>
+      </label>
+
+      <label>Password
+        <input class="input-field" type="password" placeholder= "Enter your password" required>
+      </label>
+
+      <label>Student ID
+        <input class="input-field" type="studentID" placeholder= "Enter your student ID" required>
+      </label>
+
+      <input type="submit" value="Create Account">
+    </form>
+
+  </div>
+  
+  <script src="login.js"></script>
+
+</body>
+</html>
