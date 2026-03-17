@@ -5,9 +5,24 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login
 from market.forms import UserForm, UserProfileForm
 from django.contrib import messages
+from .models import Item, ITEM_CATEGORY_CHOICES
 
 def shop(request):
-     return HttpResponse("This is the main page.")
+    category = request.GET.get("category", "")
+
+    items = Item.objects.filter(status="AVAILABLE")
+
+    if category:
+        items = items.filter(category=category)
+
+    context = {
+        "items": items,
+        "category_choices": ITEM_CATEGORY_CHOICES,
+        "selected_category": category,
+    }
+
+    return render(request, "market/shop.html", context)
+     
 
 def register(request):
      registered = False

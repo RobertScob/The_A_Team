@@ -5,9 +5,8 @@ app_name = 'market'
 
 urlpatterns = [
     path('', views.shop, name='shop'),
-    # path('/category/<slug:category_name_slug>/', views.category, name='category'),
-    # path('/item/<slug:item_name_slug>/', views.item, name='item'),
-    path('new-item/', views.newItem, name='newItem'),
+    path('item/<uuid:itemID>/', views.item_detail, name='item_detail'),
+    path('listing/', views.createListing, name='createListing'),
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='login'),
     path('logout/', views.logout, name='logout'),

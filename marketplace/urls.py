@@ -19,7 +19,6 @@ from django.urls import include
 from market import views
 
 urlpatterns = [
-    path('market/', include('market.urls')),
-    path('',views.shop, name='shop'),
+    path('', include('market.urls')),
     path('admin/', admin.site.urls),
 ]
