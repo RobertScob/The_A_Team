@@ -1,4 +1,4 @@
-from accounts import models
+from market import models
 from django import forms
 
 class UserForm(forms.ModelForm):

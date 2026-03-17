@@ -7,7 +7,6 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractUser
 from .managers import UserManager
 
-User = settings.AUTH_USER_MODEL
 
 
 ITEM_CATEGORY_CHOICES = (
@@ -44,7 +43,7 @@ def validate_not_prohibited(text: str):
 
 class Item(models.Model):
     itemID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  # primary key
-    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name="items_listed")
+    seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="items_listed")
 
     title = models.CharField(max_length=256, validators=[validate_not_prohibited])
     # Added so clean() reference is valid and to allow scanning both fields.
@@ -97,7 +96,7 @@ class ItemPhoto(models.Model):
 
 class Transaction(models.Model):
     transactionID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  # primary key
-    buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='transactions')
+    buyer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='transactions')
     item = models.ForeignKey(
         Item,
         on_delete=models.SET_NULL,
