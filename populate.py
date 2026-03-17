@@ -4,7 +4,7 @@ import django
 from decimal import Decimal
 import uuid
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "The_A_Team.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "marketplace.settings")
 django.setup()
 
 from accounts.models import User
