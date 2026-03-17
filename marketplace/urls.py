@@ -19,7 +19,7 @@ from django.urls import include
 from market import views
 
 urlpatterns = [
-    path('campusMarketplace/', include('campusMarketplace.urls')),
+    path('market/', include('market.urls')),
     path('',views.shop, name='shop'),
     path('admin/', admin.site.urls),
 ]
