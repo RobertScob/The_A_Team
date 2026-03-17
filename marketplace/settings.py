@@ -42,7 +42,6 @@ INSTALLED_APPS = [
 
     #our apps
     'market',
-    'campusMarketplace',
 ]
 
 MIDDLEWARE = [
