@@ -11,9 +11,10 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from pathlib import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -40,9 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #our apps
-    'accounts', 
     'market',
-    'campusMarketplace',
 ]
 
 MIDDLEWARE = [
@@ -106,6 +105,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+PASSWORD_HASHERS = (
+'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+)
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -125,7 +130,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-AUTH_USER_MODEL = 'accounts.User'
+AUTH_USER_MODEL = 'market.User'
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
