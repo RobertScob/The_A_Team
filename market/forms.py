@@ -1,13 +1,43 @@
-from market import models
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model
 from .models import Item
 
-class UserForm(UserCreationForm):
-    password = forms.CharField(widget=forms.PasswordInput())
+User = get_user_model()
+
+class UserRegistrationForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
+    confirm_password = forms.CharField(widget=forms.PasswordInput)
+
     class Meta:
-        model = models.User
-        fields = ('first_name', 'last_name', 'email', 'student_id', 'password')
+        model = User
+        fields = [
+            "email",
+            "first_name",
+            "last_name",
+            "student_id",
+        ]
+    
+    def clean(self):
+        cleaned = super().clean()
+
+        if cleaned.get("password") != cleaned.get("confirm_password"):
+            raise forms.ValidationError("Passwords do not match")
+
+        return cleaned
+    
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+
+        if commit:
+            user.save()
+
+        return user
+    
+
+class LoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
 
 
 class UserProfileForm(forms.ModelForm):
