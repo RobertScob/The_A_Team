@@ -50,10 +50,11 @@ class ItemForm(forms.ModelForm):
         ]
         
 
-class ItemPhotoForm(forms.ModelForm):
-    class Meta:
-        model = ItemPhoto
-        fields = ["url", "caption"]
+class ItemPhotoForm(forms.Form):
+    images = forms.ImageField(
+        widget=forms.ClearableFileInput(attrs={"multiple": True}),
+        required=False
+    )
         
 
 class TopUpForm(forms.Form):
@@ -66,5 +67,5 @@ class ProfileForm(forms.ModelForm):
         fields = [
             "first_name",
             "last_name",
-            "profile_photo_url",
+            "profile_picture",
         ]

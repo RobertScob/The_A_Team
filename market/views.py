@@ -4,11 +4,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 
-from .models import Item, Transaction
+from .models import Item, Transaction, ItemPhoto
 from .forms import (
      UserRegistrationForm,
      LoginForm,
      ItemForm,
+     ItemPhotoForm,
      TopUpForm,
      ProfileForm,
 )
@@ -102,24 +103,24 @@ def item(request, itemID):
      
 def create_listing(request):
      if request.method == "POST":
-          form = ItemForm(request.POST)
+          item_form = ItemForm(request.POST)
+          photo_form = ItemPhotoForm(request.POST, request.FILES)
 
-          if form.is_valid():
-               item = form.save(commit=False)
+          if item_form.is_valid() and photo_form.is_valid():
+
+               item = item_form.save(commit=False)
                item.seller = request.user
                item.save()
 
-               messages.success(request, "Listing created successfully.")
+               images = request.FILES.getlist("images")
+
+               for image in images:
+                    ItemPhoto.objects.create(
+                         item=item,
+                         image=image
+                    )
+
                return redirect("market:shop")
-
-     else:
-          form = ItemForm()
-
-     return render(
-          request,
-          "mock/create_listing.html",
-          {"form": form},
-     )
 
 def purchase_item(request, itemID):
      item = get_object_or_404(Item, pk=itemID)

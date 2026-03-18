@@ -35,7 +35,7 @@ class UserAdmin(DjangoUserAdmin):
     #field sections for user detail page
     fieldsets = (
         (None, {"fields": ("email", "password")}),
-        ("Personal info", {"fields": ("first_name", "last_name", "student_id", "profile_photo_url", "account_balance")}),
+        ("Personal info", {"fields": ("first_name", "last_name", "student_id", "profile_picture", "account_balance")}),
         ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")}),
         ("Important dates", {"fields": ("last_login", "date_joined")}),
     )

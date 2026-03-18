@@ -88,13 +88,14 @@ class Item(models.Model):
 
 #item photo model
 class ItemPhoto(models.Model):
-    photoID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  # primary key
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="photos")
-    url = models.CharField(max_length=512)
-    caption = models.CharField(max_length=256, blank=True)
+    item = models.ForeignKey(
+        Item,
+        on_delete=models.CASCADE,
+        related_name="photos"
+    )
 
-    def __str__(self):
-        return f"Photo {self.photoID} for {self.item.title}"
+    image = models.ImageField(upload_to="item_photos/")
+    caption = models.CharField(max_length=255, blank=True)
 
 #transaction model
 class Transaction(models.Model):
@@ -139,8 +140,11 @@ class User(AbstractUser):
 
     email = models.EmailField(max_length=256, unique=True)
     student_id = models.CharField(max_length=32, unique=True)
-    profile_photo_url = models.CharField(max_length=512, blank=True)
-
+    profile_picture = models.ImageField(
+        upload_to="profile_pics/",
+        blank=True,
+        null=True
+    )
     #simulated currency balance
     account_balance = models.DecimalField(max_digits=12, decimal_places=2,default=Decimal("0.00"), validators=[MinValueValidator(Decimal("0.00"))])
 
