@@ -1,9 +1,9 @@
 
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login
-from market.forms import UserForm, UserProfileForm
+from market.forms import UserForm, UserProfileForm, ItemForm
 from django.contrib import messages
 from .models import Item, ITEM_CATEGORY_CHOICES
 
@@ -79,7 +79,28 @@ def logout(request):
      return HttpResponse("This is the logout page.")
 
 def newItem(request):
-     return HttpResponse("This is the new item page.")
+          registered = False
+          if request.method == 'POST':
+               item_form = ItemForm(request.POST) 
+          
+
+               if item_form.is_valid():
+                    item = item_form.save(commit=False) 
+                    item.save()
+
+                    return redirect('market:shop')
+
+               else: 
+                    print(item_form.errors) 
+
+          else:
+               item_form = ItemForm() 
+
+          return render(request, 'market/register.html', {"form": item_form})
 
 def account(request):
      return HttpResponse("This is the user account page.")
+
+def item(request, itemID):
+     item = get_object_or_404(Item, itemID=itemID)
+     return render("newItem.html", {})
