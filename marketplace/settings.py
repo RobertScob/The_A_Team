@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'market',
 ]
 
+AUTH_USER_MODEL = 'market.User'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -131,8 +133,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
-AUTH_USER_MODEL = 'market.User'
 
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
