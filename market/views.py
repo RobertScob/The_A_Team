@@ -99,6 +99,90 @@ def item(request, itemID):
                "is_seller": is_seller,
           },
      )
+     
+def create_listing(request):
+     if request.method == "POST":
+          form = ItemForm(request.POST)
+
+          if form.is_valid():
+               item = form.save(commit=False)
+               item.seller = request.user
+               item.save()
+
+               messages.success(request, "Listing created successfully.")
+               return redirect("market:shop")
+
+     else:
+          form = ItemForm()
+
+     return render(
+          request,
+          "market/create_listing.html",
+          {"form": form},
+     )
+
+def purchase_item(request, itemID):
+     item = get_object_or_404(Item, pk=itemID)
+
+     try:
+          process_purchase(request.user, item)
+
+          Transaction.objects.create(
+               buyer=request.user,
+               item=item,
+               type="PURCHASE",
+               amount=item.price,
+          )
+
+          messages.success(request, "Purchase successful!")
+
+     except Exception as e:
+          messages.error(request, str(e))
+
+     return redirect("market:item_form", itemID=itemID)
 
 def account(request):
-     return HttpResponse("This is the user account page.")
+     profile_form = ProfileForm(instance=request.user)
+     topup_form = TopUpForm()
+
+     if request.method == "POST":
+
+          # Profile update
+          if "update_profile" in request.POST:
+               profile_form = ProfileForm(
+                    request.POST,
+                    instance=request.user
+               )
+
+               if profile_form.is_valid():
+                    profile_form.save()
+                    messages.success(request, "Profile updated.")
+                    return redirect("market:account")
+
+          # Top-up balance
+          if "topup" in request.POST:
+               topup_form = TopUpForm(request.POST)
+
+               if topup_form.is_valid():
+                    amount = topup_form.cleaned_data["amount"]
+
+                    Transaction.objects.create(
+                         buyer=request.user,
+                         type="TOPUP",
+                         amount=amount,
+                    )
+
+                    request.user.account_balance += amount
+                    request.user.save(update_fields=["account_balance"])
+
+                    messages.success(request, "Balance topped up.")
+                    return redirect("market:account")
+
+     return render(
+          request,
+          "market/account.html",
+          {
+               "profile_form": profile_form,
+               "topup_form": topup_form,
+          },
+     )
