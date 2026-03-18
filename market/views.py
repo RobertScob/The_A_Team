@@ -114,11 +114,18 @@ def create_listing(request):
 
                images = request.FILES.getlist("images")
 
+               first_image = True
+
                for image in images:
-                    ItemPhoto.objects.create(
+                    photo = ItemPhoto.objects.create(
                          item=item,
                          image=image
                     )
+
+               if first_image:
+                    item.thumbnail = photo.image
+                    item.save()
+                    first_image = False
 
                return redirect("market:shop")
 

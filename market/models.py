@@ -70,6 +70,13 @@ class Item(models.Model):
         default="AVAILABLE",
         db_index=True,
     )
+    
+    thumbnail = models.ImageField(
+        upload_to="thumbnails/",
+        blank=True,
+        null=True
+    )
+    
     listed_at = models.DateTimeField(auto_now_add=True) #timestamp autoset on creation
 
     class Meta:

@@ -12,13 +12,17 @@
 <hr>
 
 {% for item in items %}
-     <div style="border:1px solid black; margin:10px; padding:10px;">
+     <div>
+
+          {% if item.thumbnail %}
+               <img src="{{ item.thumbnail.url }}" width="200">
+          {% endif %}
+
           <h3>{{ item.title }}</h3>
           <p>£{{ item.price }}</p>
-          <p>Seller: {{ item.seller.email }}</p>
 
-          <a href="{% url 'market:item_form' item.itemID %}">
-               View Item
+          <a href="{% url 'market:item_form' item.id %}">
+               View
           </a>
      </div>
 {% empty %}

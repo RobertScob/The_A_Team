@@ -5,8 +5,14 @@
 <h2>{{ item.title }}</h2>
 
 {% for photo in item.photos.all %}
-     <img src="{{ photo.image.url }}" width="200">
+     <img src="{{ photo.image.url }}" width="300">
 {% endfor %}
+
+{% if item.thumbnail %}
+     <img src="{{ item.thumbnail.url }}">
+{% else %}
+     <img src="/media/defaults/no-image.png">
+{% endif %}
 
 <p><strong>Price:</strong> £{{ item.price }}</p>
 <p><strong>Seller:</strong> {{ item.seller.email }}</p>
