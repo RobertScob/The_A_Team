@@ -35,7 +35,7 @@ def shop(request):
           "category": category,
      }
 
-     return render(request, "market/shop.html", context)
+     return render(request, "mock/shop.html", context)
      
 
 def register(request):
@@ -52,7 +52,7 @@ def register(request):
      else:
           form = UserRegistrationForm()
 
-     return render(request, "market/register.html", {"form": form})
+     return render(request, "mock/register.html", {"form": form})
 
 
 def user_login(request):
@@ -74,7 +74,7 @@ def user_login(request):
           else:
                messages.error(request, "Invalid login credentials")
 
-     return render(request, "market/login.html", {"form": form})
+     return render(request, "mock/login.html", {"form": form})
 
                
 
@@ -93,7 +93,7 @@ def item(request, itemID):
 
      return render(
           request,
-          "market/item.html",
+          "mock/item.html",
           {
                "item": item,
                "is_seller": is_seller,
@@ -117,7 +117,7 @@ def create_listing(request):
 
      return render(
           request,
-          "market/create_listing.html",
+          "mock/create_listing.html",
           {"form": form},
      )
 
@@ -180,7 +180,7 @@ def account(request):
 
      return render(
           request,
-          "market/account.html",
+          "mock/account.html",
           {
                "profile_form": profile_form,
                "topup_form": topup_form,
@@ -203,4 +203,4 @@ def dashboard(request):
           "balance": request.user.account_balance,
      }
 
-     return render(request, "market/dashboard.html", context)
+     return render(request, "mock/dashboard.html", context)
