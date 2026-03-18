@@ -80,7 +80,8 @@ def user_login(request):
 
 
 def logout(request):
-     return HttpResponse("This is the logout page.")
+     auth_logout(request)
+     return redirect("market:login")
 
 def newItem(request):
      return HttpResponse("This is the new item page.")
