@@ -83,8 +83,22 @@ def logout(request):
      auth_logout(request)
      return redirect("market:login")
 
-def newItem(request):
-     return HttpResponse("This is the new item page.")
+def item(request, itemID):
+     item = get_object_or_404(Item, pk=itemID)
+
+     is_seller = (
+          request.user.is_authenticated
+          and request.user == item.seller
+     )
+
+     return render(
+          request,
+          "market/item.html",
+          {
+               "item": item,
+               "is_seller": is_seller,
+          },
+     )
 
 def account(request):
      return HttpResponse("This is the user account page.")
