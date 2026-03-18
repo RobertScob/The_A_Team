@@ -1,0 +1,33 @@
+{% extends "mock/base.html" %}
+
+{% block content %}
+
+<h2>{{ item.title }}</h2>
+
+<p><strong>Price:</strong> £{{ item.price }}</p>
+<p><strong>Seller:</strong> {{ item.seller.email }}</p>
+<p><strong>Category:</strong> {{ item.category }}</p>
+
+<p>{{ item.description }}</p>
+
+<hr>
+
+{% if user.is_authenticated %}
+
+     {% if is_seller %}
+          <p>You are the seller.</p>
+     {% else %}
+          {% if item.status == "AVAILABLE" %}
+               <a href="{% url 'market:purchase_item' item.itemID %}">
+                    <button>Purchase</button>
+               </a>
+          {% else %}
+               <p><strong>Item Sold</strong></p>
+          {% endif %}
+     {% endif %}
+
+{% else %}
+     <p>Please login to purchase.</p>
+{% endif %}
+
+{% endblock %}

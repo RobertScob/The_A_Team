@@ -1,0 +1,28 @@
+{% extends "mock/base.html" %}
+
+{% block content %}
+
+<h2>Marketplace</h2>
+
+<form method="get">
+     <input type="text" name="q" placeholder="Search..." value="{{ query }}">
+     <button type="submit">Search</button>
+</form>
+
+<hr>
+
+{% for item in items %}
+     <div style="border:1px solid black; margin:10px; padding:10px;">
+          <h3>{{ item.title }}</h3>
+          <p>£{{ item.price }}</p>
+          <p>Seller: {{ item.seller.email }}</p>
+
+          <a href="{% url 'market:item_form' item.itemID %}">
+               View Item
+          </a>
+     </div>
+{% empty %}
+     <p>No items found.</p>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "mock/base.html" %}
+
+{% block content %}
+
+<h2>Dashboard</h2>
+
+<p><strong>Balance:</strong> £{{ balance }}</p>
+
+<hr>
+
+<h3>My Listings</h3>
+{% for item in listings %}
+    <p>{{ item.title }} - {{ item.status }}</p>
+{% empty %}
+    <p>No listings.</p>
+{% endfor %}
+
+<hr>
+
+<h3>Purchases</h3>
+{% for t in purchases %}
+    <p>{{ t.item }} - £{{ t.amount }}</p>
+{% empty %}
+    <p>No purchases.</p>
+{% endfor %}
+
+<hr>
+
+<h3>Sales</h3>
+{% for t in sales %}
+    <p>{{ t.item }} sold for £{{ t.amount }}</p>
+{% empty %}
+    <p>No sales.</p>
+{% endfor %}
+
+{% endblock %}

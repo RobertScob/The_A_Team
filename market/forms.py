@@ -39,12 +39,6 @@ class LoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
 
-
-class UserProfileForm(forms.ModelForm):
-    class Meta:
-        model = models.User
-        fields = ('profile_photo_url',)
-
 class ItemForm(forms.ModelForm):
     class Meta:
         model = Item

@@ -1,0 +1,38 @@
+<!-- templates/mock/base.html -->
+<!DOCTYPE html>
+<html>
+<head>
+     <title>Campus Marketplace</title>
+</head>
+<body>
+
+<h1><a href="{% url 'market:shop' %}">Campus Marketplace</a></h1>
+
+<hr>
+
+<nav>
+     {% if user.is_authenticated %}
+          Balance: £{{ user.account_balance }} |
+          <a href="{% url 'market:create_listing' %}">Create Listing</a> |
+          <a href="{% url 'market:dashboard' %}">Dashboard</a> |
+          <a href="{% url 'market:account' %}">Account</a> |
+          <a href="{% url 'market:logout' %}">Logout</a>
+     {% else %}
+          <a href="{% url 'market:login' %}">Login</a> |
+          <a href="{% url 'market:register' %}">Register</a>
+     {% endif %}
+</nav>
+
+<hr>
+
+{% if messages %}
+     {% for message in messages %}
+          <p><strong>{{ message }}</strong></p>
+     {% endfor %}
+{% endif %}
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>

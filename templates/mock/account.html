@@ -1,0 +1,25 @@
+{% extends "mock/base.html" %}
+
+{% block content %}
+
+<h2>Account</h2>
+
+<h3>Update Profile</h3>
+
+<form method="post">
+     {% csrf_token %}
+     {{ profile_form.as_p }}
+     <button name="update_profile">Update Profile</button>
+</form>
+
+<hr>
+
+<h3>Top Up Balance</h3>
+
+<form method="post">
+    {% csrf_token %}
+    {{ topup_form.as_p }}
+    <button name="topup">Top Up</button>
+</form>
+
+{% endblock %}
