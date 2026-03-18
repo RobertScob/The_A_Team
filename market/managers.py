@@ -5,9 +5,10 @@ class UserManager(BaseUserManager):
     use_in_migrations = True
 
     def normalize_email(self, email):
-        # Keep default normalization
+        #normalise email by making the domain lowercase
         return super().normalize_email(email)
 
+    #creates and returns a regukar user
     def create_user(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError(_("The Email must be set"))
@@ -17,6 +18,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+    #creates and returns a superuser 
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)

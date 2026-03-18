@@ -7,8 +7,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractUser
 from .managers import UserManager
 
-
-
+#choice sets for model fields
 ITEM_CATEGORY_CHOICES = (
     ("FURNITURE", "Furniture"),
     ("ELECTRONICS", "Electronics"),
@@ -29,10 +28,12 @@ TRANSACTION_TYPE_CHOICES = (
     ("TOPUP", "Topup"),
 )
 
+#words that can't appear in the title or description
 PROHIBITED_KEYWORDS = (
     "food", "drink", "beverage", "pet", "illegal", "prohibited"
 )
 
+#validator = prevents users from listing banned items by scanning for prohibited keywords
 def validate_not_prohibited(text: str):
     if not text:
         return
@@ -41,6 +42,7 @@ def validate_not_prohibited(text: str):
         if word in lower:
             raise ValidationError("This listing appears to include prohibited items. Please revise")
 
+#item model 
 class Item(models.Model):
     itemID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  # primary key
     seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="items_listed")
@@ -59,7 +61,7 @@ class Item(models.Model):
     price = models.DecimalField(
         max_digits=12,
         decimal_places=2,
-        validators=[MinValueValidator(Decimal("0.00"))],
+        validators=[MinValueValidator(Decimal("0.00"))], #price cant be negative
     )
 
     status = models.CharField(
@@ -68,22 +70,23 @@ class Item(models.Model):
         default="AVAILABLE",
         db_index=True,
     )
-    listed_at = models.DateTimeField(auto_now_add=True)
+    listed_at = models.DateTimeField(auto_now_add=True) #timestamp autoset on creation
 
     class Meta:
+        #extra indexes for filtering and sorting
         indexes = [
             models.Index(fields=["category", "status"]),
             models.Index(fields=["listed_at"]),
         ]
 
     def clean(self):
-        # Validate combined content for prohibited terms
+        # Validate combined content for prohibited words
         validate_not_prohibited(f"{self.title} {self.description or ''}")
 
     def __str__(self):
         return self.title
 
-
+#item photo model
 class ItemPhoto(models.Model):
     photoID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  # primary key
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="photos")
@@ -93,7 +96,7 @@ class ItemPhoto(models.Model):
     def __str__(self):
         return f"Photo {self.photoID} for {self.item.title}"
 
-
+#transaction model
 class Transaction(models.Model):
     transactionID = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  # primary key
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='transactions')
@@ -117,7 +120,7 @@ class Transaction(models.Model):
         ordering = ["-date"]
 
     def clean(self):
-        # Compare against the string values used in TRANSACTION_TYPE_CHOICES
+        # Compare against the string values 
         if self.type == "PURCHASE" and self.item is None:
             raise ValidationError("Purchase transactions must reference an item")
         if self.type == "TOPUP" and self.item is not None:
