@@ -57,21 +57,24 @@ def register(request):
 
 def user_login(request):
 
-     if request.method == 'POST':
-          form = AuthenticationForm(request, data=request.POST)
+     if request.user.is_authenticated:
+          return redirect("market:shop")
 
-          if form.is_valid():
-               login(request, form.get_user())
-               return redirect('market:shop')
+     form = LoginForm(request.POST or None)
 
-     else:
-          form = AuthenticationForm() 
+     if request.method == "POST" and form.is_valid():
+          email = form.cleaned_data["email"]
+          password = form.cleaned_data["password"]
 
-     user_form = UserForm()
+          user = authenticate(request, email=email, password=password)
 
-     return render(request, 'market/registration.html', {'login_form':form,
-                                                  'user_form': user_form,
-                                                  'registered': False})
+          if user:
+               login(request, user)
+               return redirect("market:shop")
+          else:
+               messages.error(request, "Invalid login credentials")
+
+     return render(request, "market/login.html", {"form": form})
 
                
 
