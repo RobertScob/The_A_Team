@@ -1,58 +1,58 @@
-from urllib import request
-
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login
-from market.forms import UserForm, UserProfileForm, ItemForm
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login, logout as auth_logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Item, ITEM_CATEGORY_CHOICES
+from django.db.models import Q
+
+from .models import Item, Transaction
+from .forms import (
+     UserRegistrationForm,
+     LoginForm,
+     ItemForm,
+     TopUpForm,
+     ProfileForm,
+)
+from .services import process_purchase
 
 def shop(request):
-    category = request.GET.get("category", "")
+     query = request.GET.get("q", "")
+     category = request.GET.get("category", "")
 
-    items = Item.objects.filter(status="AVAILABLE")
+     items = Item.objects.filter(status="AVAILABLE")
 
-    if category:
-        items = items.filter(category=category)
+     if query:
+          items = items.filter(
+               Q(title__icontains=query) |
+               Q(description__icontains=query)
+          )
 
-    context = {
-        "items": items,
-        "category_choices": ITEM_CATEGORY_CHOICES,
-        "selected_category": category,
-    }
+     if category:
+          items = items.filter(category=category)
 
-    return render(request, "market/shop.html", context)
+     context = {
+          "items": items.order_by("-listed_at"),
+          "query": query,
+          "category": category,
+     }
+
+     return render(request, "market/shop.html", context)
      
 
 def register(request):
-     registered = False
-     if request.method == 'POST':
-          user_form = UserForm(request.POST) 
-          
+     if request.user.is_authenticated:
+          return redirect("market:shop")
 
-          if user_form.is_valid():
+     if request.method == "POST":
+          form = UserRegistrationForm(request.POST)
 
-               user = user_form.save(commit=False) 
-
-               user.set_password(user_form.cleaned_data['password']) 
-               user.save()
-
-               messages.success(request, 
-                                'Registration successful. You can now log in.') 
-               return redirect('market:login')
-
-          else: 
-               print(user_form.errors) 
-
+          if form.is_valid():
+               form.save()
+               messages.success(request, "Account created. Please login.")
+               return redirect("market:login")
      else:
-          user_form = UserForm() 
+          form = UserRegistrationForm()
 
-     login_form = AuthenticationForm()
-
-     return render(request, 'market/registration.html', {'user_form': user_form, 
-                                                  'login_form': login_form, 
-                                                  'registered': registered})
+     return render(request, "market/register.html", {"form": form})
 
 
 def user_login(request):
