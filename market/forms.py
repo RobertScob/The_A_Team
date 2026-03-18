@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from .models import Item
+from .models import Item, ItemPhoto
 
 User = get_user_model()
 
@@ -46,9 +46,31 @@ class UserProfileForm(forms.ModelForm):
         fields = ('profile_photo_url',)
 
 class ItemForm(forms.ModelForm):
-    
-    photos = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
-    
     class Meta:
         model = Item
-        fields = ["title", "description", "category", "price", "photos"]
+        fields = [
+            "title",
+            "description",
+            "category",
+            "price",
+        ]
+        
+
+class ItemPhotoForm(forms.ModelForm):
+    class Meta:
+        model = ItemPhoto
+        fields = ["url", "caption"]
+        
+
+class TopUpForm(forms.Form):
+    amount = forms.DecimalField(min_value=1)
+    
+    
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            "first_name",
+            "last_name",
+            "profile_photo_url",
+        ]
