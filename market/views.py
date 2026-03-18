@@ -1,3 +1,4 @@
+from urllib import request
 
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
@@ -49,7 +50,7 @@ def register(request):
 
      login_form = AuthenticationForm()
 
-     return render(request, 'market/register.html', {'user_form': user_form, 
+     return render(request, 'market/registration.html', {'user_form': user_form, 
                                                   'login_form': login_form, 
                                                   'registered': registered})
 
@@ -68,7 +69,7 @@ def user_login(request):
 
      user_form = UserForm()
 
-     return render(request, 'market/register.html', {'login_form':form,
+     return render(request, 'market/registration.html', {'login_form':form,
                                                   'user_form': user_form,
                                                   'registered': False})
 
@@ -79,28 +80,7 @@ def logout(request):
      return HttpResponse("This is the logout page.")
 
 def newItem(request):
-          registered = False
-          if request.method == 'POST':
-               item_form = ItemForm(request.POST) 
-          
-
-               if item_form.is_valid():
-                    item = item_form.save(commit=False) 
-                    item.save()
-
-                    return redirect('market:shop')
-
-               else: 
-                    print(item_form.errors) 
-
-          else:
-               item_form = ItemForm() 
-
-          return render(request, 'market/register.html', {"form": item_form})
+     return HttpResponse("This is the new item page.")
 
 def account(request):
      return HttpResponse("This is the user account page.")
-
-def item(request, itemID):
-     item = get_object_or_404(Item, itemID=itemID)
-     return render("newItem.html", {})
