@@ -186,3 +186,21 @@ def account(request):
                "topup_form": topup_form,
           },
      )
+
+
+def dashboard(request):
+     listings = request.user.items_listed.all()
+     purchases = request.user.transactions.filter(type="PURCHASE")
+     sales = Transaction.objects.filter(
+          item__seller=request.user,
+          type="PURCHASE",
+     )
+
+     context = {
+          "listings": listings,
+          "purchases": purchases,
+          "sales": sales,
+          "balance": request.user.account_balance,
+     }
+
+     return render(request, "market/dashboard.html", context)
