@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 
-from .models import Item, Transaction, ItemPhoto
+from .models import Item, Transaction, ItemPhoto, ITEM_CATEGORY_CHOICES
 from .forms import (
      UserRegistrationForm,
      LoginForm,
@@ -15,6 +15,7 @@ from .forms import (
 )
 from .services import process_purchase
 
+@login_required
 def shop(request):
      query = request.GET.get("q", "")
      category = request.GET.get("category", "")
@@ -34,6 +35,7 @@ def shop(request):
           "items": items.order_by("-listed_at"),
           "query": query,
           "category": category,
+          "CATEGORY_CHOICES": ITEM_CATEGORY_CHOICES,
      }
 
      return render(request, "market/home.html", context)
@@ -79,11 +81,12 @@ def user_login(request):
 
                
 
-
+@login_required
 def logout(request):
      auth_logout(request)
      return redirect("market:login")
 
+@login_required
 def item(request, itemID):
      item = get_object_or_404(Item, pk=itemID)
 
@@ -101,6 +104,7 @@ def item(request, itemID):
           },
      )
      
+@login_required
 def create_listing(request):
      if request.method == "POST":
           item_form = ItemForm(request.POST)
@@ -129,6 +133,7 @@ def create_listing(request):
 
                return redirect("market:shop")
 
+@login_required
 def purchase_item(request, itemID):
      item = get_object_or_404(Item, pk=itemID)
 
@@ -149,6 +154,7 @@ def purchase_item(request, itemID):
 
      return redirect("market:item_form", itemID=itemID)
 
+@login_required
 def account(request):
      profile_form = ProfileForm(instance=request.user)
      topup_form = TopUpForm()
@@ -195,7 +201,7 @@ def account(request):
           },
      )
 
-
+@login_required
 def dashboard(request):
      listings = request.user.items_listed.all()
      purchases = request.user.transactions.filter(type="PURCHASE")
@@ -213,6 +219,7 @@ def dashboard(request):
 
      return render(request, "mock/dashboard.html", context)
 
+@login_required
 def search_items(request):
      q = request.GET.get("q")
 
