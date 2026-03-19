@@ -65,31 +65,31 @@ def populate():
 
     print_header("Stocking Marketplace")
     item_pool = [
-        ("UofG Official Hoodie", "Size Medium, Navy Blue. Great for library sessions.", "CLOTHING", 25.00, "hoodie"),
-        ("IKEA Desk - Hillhead", "Moving out of Hillhead, needs a new home.", "FURNITURE", 15.00, "desk"),
-        ("Calculus for Engineers", "Core textbook for 1st year UofG engineering.", "BOOKS", 40.00, "textbook"),
-        ("Glasgow Warriors Jersey", "Official jersey, worn once to Scotstoun.", "SPORTS", 35.00, "rugby"),
-        ("Tunnock's Teacake Cushion", "A bit of Scottish kit for your room.", "FURNITURE", 12.00, "cushion"),
-        ("Electric Kettle", "Perfect for late night study tea.", "ELECTRONICS", 8.00, "kettle"),
-        ("Lab Coat - Science", "Clean, fits someone 5'10. Used in The Wolfson Centre.", "CLOTHING", 15.00, "coat"),
-        ("Bicycle - West End", "Rusty but works. Great for cycling down Byres Rd or a quick trip to central.", "OTHER", 50.00, "bicycle"),
-        ("Noise Cancelling Headphones", "Crucial for the mid-day study in the JMS", "ELECTRONICS", 90.00, "headphones"),
-        ("Macbeth - Annotated", "Shakespeare text for English Lit students.", "BOOKS", 5.00, "book"),
-        ("Yoga Mat", "Used for classes at the Stevenson Hive.", "SPORTS", 10.00, "yoga"),
-        ("Mini Fridge", "Keep your Irn Bru cold in the dorms.", "ELECTRONICS", 45.00, "fridge"),
-        ("Desk Lamp", "LED lamp with USB port.", "STATIONERY", 12.50, "lamp"),
-        ("Graphing Calculator", "Casio, essential for Maths 1.", "STATIONERY", 20.00, "calculator"),
-        ("Winter Parka", "You'll need this for the Glasgow horizontal rain.", "CLOTHING", 60.00, "parka"),
-        ("Toaster", "Two-slot toaster, works perfectly.", "ELECTRONICS", 10.00, "toaster"),
+        ("UofG Official Hoodie", "Size Medium, Navy Blue. Great for library sessions.", "CLOTHING", 25.00, "hoodie.jpg"),
+        ("IKEA Desk - Hillhead", "Moving out of Hillhead, needs a new home.", "FURNITURE", 15.00, "desk.jpg"),
+        ("Calculus for Engineers", "Core textbook for 1st year UofG engineering.", "BOOKS", 40.00, "textbook.jpg"),
+        ("Glasgow Warriors Jersey", "Official jersey, worn once to Scotstoun.", "SPORTS", 35.00, "rugby.jpg"),
+        ("Tunnock's Teacake Cushion", "A bit of Scottish kit for your room.", "FURNITURE", 12.00, "cushion.jpg"),
+        ("Electric Kettle", "Perfect for late night study tea.", "ELECTRONICS", 8.00, "kettle.jpg"),
+        ("Lab Coat - Science", "Clean, fits someone 5'10. Used in The Wolfson Centre.", "CLOTHING", 15.00, "coat.jpg"),
+        ("Bicycle - West End", "Rusty but works. Great for cycling down Byres Rd or a quick trip to central.", "OTHER", 50.00, "bicycle.jpg"),
+        ("Noise Cancelling Headphones", "Crucial for the mid-day study in the JMS", "ELECTRONICS", 90.00, "headphones.jpg"),
+        ("Macbeth - Annotated", "Shakespeare text for English Lit students.", "BOOKS", 5.00, "book.jpg"),
+        ("Yoga Mat", "Used for classes at the Stevenson Hive.", "SPORTS", 10.00, "yoga.jpg"),
+        ("Mini Fridge", "Keep your Irn Bru cold in the dorms.", "ELECTRONICS", 45.00, "fridge.jpg"),
+        ("Desk Lamp", "LED lamp with USB port.", "STATIONERY", 12.50, "lamp.jpg"),
+        ("Graphing Calculator", "Casio, essential for Maths 1.", "STATIONERY", 20.00, "calculator.jpg"),
+        ("Winter Parka", "You'll need this for the Glasgow horizontal rain.", "CLOTHING", 60.00, "parka.jpg"),
+        ("Toaster", "Two-slot toaster, works perfectly.", "ELECTRONICS", 10.00, "toaster.jpg"),
         ("Introduction to Psychology", "Barely used textbook.", "BOOKS", 30.00, "textbook-psy.jpg"),
-        ("Gaming Mouse", "Logitech, used for 6 months.", "ELECTRONICS", 25.00, "mouse"),
+        ("Gaming Mouse", "Logitech, used for 6 months.", "ELECTRONICS", 25.00, "mouse.jpg"),
         ("Buckfast", "My mate passed out before he could finish the bottle, so just selling the rest off.", "OTHER", 5.00, "buckfast.jpg"),
-        ("GUSA Fleece Jacket", "Decided to become a chud. Stopped doing any sports or going outside.", "CLOTHING", 20.00, "fleece"),
-        ("Pint of Fun", "Brewed fresh from my kitchen at Murano.", "OTHER", 20.00, "pint-of-fun"),
-        ("Firewater Ticket", "Not gonna make it to my 8am tommorow if I go.", "OTHER", 12.00, "firewater"),
-        ("Bapestas - Shoes", "Lowkey just need the money. Might not make it till my next SAAS payment", "CLOTHING", 18.00, "shoes"),
-        ("MacBook Pro", "\"Strategically Invested\" all my savings - declaring bankruptcy.", "ELECTRONICS", 100.00, "macbook"),
-        ("Bars of Gold", "Just won the lottery, feeling quite generous today", "OTHER", 20.00, "gold"),
+        ("GUSA Fleece Jacket", "Decided to become a chud. Stopped doing any sports or going outside.", "CLOTHING", 20.00, "fleece.jpg"),
+        ("Pint of Fun", "Brewed fresh from my kitchen at Murano.", "OTHER", 20.00, "pint-of-fun.jpg"),
+        ("Firewater Ticket", "Not gonna make it to my 8am tommorow if I go.", "OTHER", 12.00, "firewater.jpg"),
+        ("Bapestas - Shoes", "Lowkey just need the money. Might not make it till my next SAAS payment", "CLOTHING", 18.00, "shoes.jpg"),
+        ("MacBook Pro", "\"Strategically Invested\" all my savings - declaring bankruptcy.", "ELECTRONICS", 100.00, "macbook.jpg"),
+        ("Bars of Gold", "Just won the lottery, feeling quite generous today", "OTHER", 20.00, "gold.jpg"),
     ]
 
     for title, desc, cat, price, filename in item_pool:
@@ -104,7 +104,6 @@ def populate():
         )
         
         full_path = os.path.join(settings.MEDIA_DIR, "thumbnails", filename) 
-        print(full_path)
         if os.path.exists(full_path):
             with open(full_path, 'rb') as f:
                 item.thumbnail.save(filename, File(f), save=True)
