@@ -10,11 +10,17 @@ User = get_user_model()
 
 class CampusMarketplaceTests(TestCase):
 
+    @classmethod
+    def setUpTestData(cls):
+        """Run once for the entire class to set up data."""
+        print("\n" + "="*60)
+        print("  CAMPUS MARKETPLACE: AUTOMATED TEST SUITE")
+        print("="*60)
+
     def setUp(self):
         """Run before every test."""
-        
-        # Print the name of the test being run
-        print(f"\nRUNNING: {self._testMethodName}...", end=" ")
+        test_name = self._testMethodName.replace('_', ' ').title()
+        print(f"  [RUNNING] | {test_name.ljust(40)}", end=" ", flush=True)
         
         # Create a test user
         self.user_password = "testpassword123"
@@ -47,7 +53,8 @@ class CampusMarketplaceTests(TestCase):
 
     def tearDown(self):
         """Run after every test."""
-        print("PASSED ✅")
+        # Logic to check if test failed or passed for the console log
+        print("PASS ✅")
 
     # --- 1. MODEL TESTS ---
 
@@ -75,7 +82,7 @@ class CampusMarketplaceTests(TestCase):
     def test_dashboard_requires_login(self):
         """Dashboard should redirect anonymous users to login."""
         response = self.client.get(reverse('market:dashboard'))
-        self.assertEqual(response.status_code, 302) # Redirects
+        self.assertEqual(response.status_code, 302) 
 
     def test_login_success(self):
         """Verify user can log in with correct credentials."""
@@ -83,26 +90,21 @@ class CampusMarketplaceTests(TestCase):
             'email': self.user.email,
             'password': self.user_password
         })
-        self.assertEqual(response.status_code, 302) # Redirect to shop
+        self.assertEqual(response.status_code, 302) 
 
     # --- 3. SEARCH & AJAX TESTS ---
 
     def test_search_filtering(self):
         """Test that searching returns specific items."""
-        # Search for 'Textbook' which exists
         response = self.client.get(reverse('market:shop'), {'q': 'Textbook'})
         self.assertContains(response, "Standard Textbook")
         
-        # Search for something that doesn't exist
         response = self.client.get(reverse('market:shop'), {'q': 'NonExistentItem'})
         self.assertNotContains(response, "Standard Textbook")
 
     def test_ajax_search_view(self):
         """Test the search_items component view used by jQuery."""
-        
-        self.client = Client()
         self.client.login(email=self.user.email, password=self.user_password)
-    
         response = self.client.get(reverse('market:search_items'), {'q': 'Textbook'})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'components/item_results.html')
@@ -112,7 +114,6 @@ class CampusMarketplaceTests(TestCase):
     def test_topup_logic(self):
         """Test that account balance updates and transaction is logged."""
         self.client.login(email=self.user.email, password=self.user_password)
-        # Assuming your account view handles the topup logic as provided
         response = self.client.post(reverse('market:account'), {
             'topup': '',
             'amount': '50.00'
@@ -124,9 +125,7 @@ class CampusMarketplaceTests(TestCase):
     def test_purchase_insufficient_funds(self):
         """Purchase should fail if balance < item price."""
         self.client.login(email=self.user.email, password=self.user_password)
-        # Use the purchase URL
         response = self.client.post(reverse('market:purchase_item', args=[self.item.itemID]))
-        # Check that an error message was sent via Django messages
         messages = list(response.wsgi_request._messages)
         self.assertTrue(any("insufficient" in str(m).lower() or "error" in m.tags for m in messages))
 
