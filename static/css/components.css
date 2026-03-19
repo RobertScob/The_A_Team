@@ -1,0 +1,14 @@
+.item-card {
+     border-radius: 16px;
+     transition: 0.3s;
+}
+
+.item-card:hover {
+     transform: translateY(-6px);
+     box-shadow: 0 10px 25px rgba(0, 0, 0, .1);
+}
+
+.price {
+     color: #ff2d95;
+     font-weight: bold;
+}
