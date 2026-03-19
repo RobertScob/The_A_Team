@@ -20,7 +20,7 @@
           </div>
 
           <h1 class="fw-bold mt-2 mb-3">{{ item.title }}</h1>
-          <h2 class="text-danger fw-bold mb-4">${{ item.price }}</h2>
+          <h2 class="text-danger fw-bold mb-4">£{{ item.price }}</h2>
 
           <div class="d-flex align-items-center p-3 bg-white rounded-3 border mb-4 shadow-sm">
                <div class="bg-gradient text-white rounded-circle d-flex align-items-center justify-content-center me-3"
@@ -38,8 +38,7 @@
                <p class="text-muted" style="line-height: 1.7;">
                     {{ item.description|default:"No description provided by the seller." }}
                </p>
-               <p class="text-muted small mt-3"><i class="fa-regular fa-clock me-1"></i> Listed on {{
-                    item.listed_at|date:"F d, Y" }}</p>
+               <p class="text-muted small mt-3"><i class="fa-regular fa-clock me-1"></i> Listed on {{ listed_date|date:"F d, Y"|default:"Unknown" }}</p>
           </div>
 
           <div class="mt-auto">

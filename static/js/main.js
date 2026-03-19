@@ -1,5 +1,4 @@
 $(document).ready(function () {
-     // --- Existing Live Search Code ---
      const $searchInput = $('#ajaxSearchInput');
      const $resultsContainer = $('#itemGrid');
 
@@ -20,33 +19,31 @@ $(document).ready(function () {
           });
      }
 
-     // --- NEW: Smooth Category Filtering ---
      $(document).on('click', '.category-link', function (e) {
           e.preventDefault();
           let url = $(this).attr('href');
 
-          // Visually update the active category pill immediately
           $('.category-link').removeClass('btn-gradient text-white').addClass('text-dark');
           $(this).removeClass('text-dark').addClass('btn-gradient text-white');
 
-          // Fade out current grid
+
           $resultsContainer.css('transition', 'opacity 0.2s ease');
           $resultsContainer.css('opacity', '0.2');
 
           $.ajax({
                url: url,
                success: function (response) {
-                    // Extract only the #itemGrid content from the returned HTML
+
                     let newContent = $(response).find('#itemGrid').html();
 
-                    // Swap content and fade back in
+
                     $resultsContainer.html(newContent);
                     $resultsContainer.css('opacity', '1');
 
-                    // Re-trigger the enter animations for new items
+
                     applyStaggeredAnimations();
 
-                    // Update the browser's URL bar without reloading
+
                     window.history.pushState({ path: url }, '', url);
                },
                error: function () {

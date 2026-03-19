@@ -12,7 +12,7 @@
                <div class="text-muted mb-2"><i
                          class="fa-solid fa-dollar-sign d-inline-block bg-danger bg-opacity-10 text-danger p-2 rounded me-2"></i>
                     Balance</div>
-               <h2 class="fw-bold m-0">${{ balance }}</h2>
+               <h2 class="fw-bold m-0">£{{ balance }}</h2>
           </div>
      </div>
      <div class="col-md-3">
@@ -79,7 +79,7 @@
                               <h6 class="mb-0">{{ item.title }}</h6>
                               <small class="text-muted">Listed {{ item.listed_at|date:"M d, Y" }}</small>
                          </div>
-                         <span class="fw-bold">${{ item.price }}</span>
+                         <span class="fw-bold">£{{ item.price }}</span>
                     </li>
                     {% endfor %}
                </ul>
@@ -98,7 +98,7 @@
                               <h6 class="mb-0">{{ tx.item.title }}</h6>
                               <small class="text-muted">from {{ tx.item.seller.email }}</small>
                          </div>
-                         <span class="fw-bold">${{ tx.amount }}</span>
+                         <span class="fw-bold">£{{ tx.amount }}</span>
                     </li>
                     {% endfor %}
                </ul>

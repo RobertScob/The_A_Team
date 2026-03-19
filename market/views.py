@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
+import datetime
 
 from .models import Item, Transaction, ItemPhoto, ITEM_CATEGORY_CHOICES
 from .forms import (
@@ -15,7 +16,7 @@ from .forms import (
 )
 from .services import process_purchase
 
-@login_required
+
 def shop(request):
      query = request.GET.get("q", "")
      category = request.GET.get("category", "")
@@ -55,7 +56,7 @@ def register(request):
      else:
           form = UserRegistrationForm()
 
-     return render(request, "mock/register.html", {"form": form})
+     return render(request, "market/register.html", {"form": form})
 
 
 def user_login(request):
@@ -77,7 +78,7 @@ def user_login(request):
           else:
                messages.error(request, "Invalid login credentials")
 
-     return render(request, "mock/login.html", {"form": form})
+     return render(request, "market/login.html", {"form": form})
 
                
 
@@ -97,16 +98,26 @@ def item(request, itemID):
 
      return render(
           request,
-          "mock/item.html",
+          "market/item.html",
           {
                "item": item,
                "is_seller": is_seller,
+               "listed_date": item.listed_at,
           },
      )
      
 @login_required
 def create_listing(request):
-     if request.method == "POST":
+     if request.method == "GET":
+          item_form = ItemForm()
+          photo_form = ItemPhotoForm()
+
+          return render(request, "market/create_listing.html", {
+               "item_form": item_form,
+               "photo_form": photo_form,
+          })
+     
+     elif request.method == "POST":
           item_form = ItemForm(request.POST)
           photo_form = ItemPhotoForm(request.POST, request.FILES)
 
@@ -132,6 +143,11 @@ def create_listing(request):
                     first_image = False
 
                return redirect("market:shop")
+     
+     return render(request, "market/create_listing.html", {
+               "item_form": item_form,
+               "photo_form": photo_form,
+          })
 
 @login_required
 def purchase_item(request, itemID):
@@ -171,7 +187,7 @@ def account(request):
                if profile_form.is_valid():
                     profile_form.save()
                     messages.success(request, "Profile updated.")
-                    return redirect("market:account")
+                    return redirect("market:dashboard")
 
           # Top-up balance
           if "topup" in request.POST:
@@ -190,7 +206,7 @@ def account(request):
                     request.user.save(update_fields=["account_balance"])
 
                     messages.success(request, "Balance topped up.")
-                    return redirect("market:account")
+                    return redirect("market:dashboard")
 
      return render(
           request,
@@ -217,7 +233,7 @@ def dashboard(request):
           "balance": request.user.account_balance,
      }
 
-     return render(request, "mock/dashboard.html", context)
+     return render(request, "market/dashboard.html", context)
 
 @login_required
 def search_items(request):
