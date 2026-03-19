@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+
+<h2>Dashboard</h2>
+
+<div class="row g-4">
+
+<div class="col-md-3">
+<div class="card stat-card">
+Balance
+<h3>${{ user.account_balance }}</h3>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card stat-card">
+My Listings
+<h3>{{ listings.count }}</h3>
+</div>
+</div>
+
+</div>
+</div>
+{% endblock %}

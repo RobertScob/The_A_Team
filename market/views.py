@@ -36,7 +36,7 @@ def shop(request):
           "category": category,
      }
 
-     return render(request, "mock/shop.html", context)
+     return render(request, "market/home.html", context)
      
 
 def register(request):
