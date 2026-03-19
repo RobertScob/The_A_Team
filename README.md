@@ -135,7 +135,7 @@ The following students are the core architects of the Campus Marketplace:
   
 - **Ore Ajibade**
   
-- **Tess Bryne**
+- **Tess Byrne**
   
 - **Hayden Gilmour**
   
