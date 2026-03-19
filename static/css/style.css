@@ -1,0 +1,76 @@
+/* Custom Properties mimicking your wireframes */
+:root {
+     --bg-light: #f8f9fc;
+     --primary-grad: linear-gradient(135deg, #f953c6, #b91d73);
+     --text-main: #2c3e50;
+     --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+     --hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+body {
+     background-color: var(--bg-light);
+     color: var(--text-main);
+     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Base Animations for sleek transitions */
+.page-enter {
+     animation: fadeInUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+     opacity: 0;
+     transform: translateY(15px);
+}
+
+@keyframes fadeInUp {
+     to {
+          opacity: 1;
+          transform: translateY(0);
+     }
+}
+
+/* Utilities & Components */
+.card-custom {
+     border: none;
+     border-radius: 16px;
+     box-shadow: var(--card-shadow);
+     transition: transform 0.3s ease, box-shadow 0.3s ease;
+     background: #fff;
+}
+
+.item-card:hover {
+     transform: translateY(-5px);
+     box-shadow: var(--hover-shadow);
+}
+
+.btn-gradient {
+     background: var(--primary-grad);
+     color: white;
+     border: none;
+     border-radius: 8px;
+     padding: 0.5rem 1.5rem;
+     transition: opacity 0.3s;
+}
+
+.btn-gradient:hover {
+     opacity: 0.9;
+     color: white;
+}
+
+.pill-category {
+     font-size: 0.75rem;
+     padding: 0.25rem 0.75rem;
+     border-radius: 50px;
+     background: rgba(249, 83, 198, 0.1);
+     color: #b91d73;
+     font-weight: 600;
+}
+
+.form-control-custom {
+     border-radius: 8px;
+     border: 1px solid #e0e0e0;
+     padding: 0.75rem 1rem;
+}
+
+.form-control-custom:focus {
+     box-shadow: 0 0 0 3px rgba(249, 83, 198, 0.2);
+     border-color: #f953c6;
+}
