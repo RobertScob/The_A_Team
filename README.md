@@ -32,7 +32,7 @@ cd The_A_Team
 
 ##### 2. Install Requirements
 
-Ensure you have Python 3.8+ installed.
+Ensure you have Python 3.11+ installed.
 
 Bash
 
