@@ -212,3 +212,14 @@ def dashboard(request):
      }
 
      return render(request, "mock/dashboard.html", context)
+
+def search_items(request):
+     q = request.GET.get("q")
+
+     items = Item.objects.filter(title__icontains=q)
+
+     return render(
+               request,
+               "components/item_results.html",
+               {"items": items}
+          )
