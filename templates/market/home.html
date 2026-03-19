@@ -1,33 +1,30 @@
-{% extends "base.html" %}
-{% block title %}All Items{% endblock %}
+{% extends 'base.html' %}
 
 {% block content %}
-
-<div class="container-fluid mt-4">
-
 <div class="row">
+     <div class="col-lg-3 mb-4">
+          <div class="card-custom p-3">
+               <h5 class="fw-bold mb-3 px-2">Categories</h5>
+               <div class="list-group list-group-flush border-0">
+                    <a href="{% url 'market:shop' %}"
+                         class="list-group-item list-group-item-action border-0 rounded-3 {% if not category %}btn-gradient text-white{% endif %}">All</a>
+                    {% for cat_code, cat_name in CATEGORY_CHOICES %}
+                    <a href="?category={{ cat_code }}"
+                         class="list-group-item list-group-item-action border-0 rounded-3 mt-1 {% if category == cat_code %}btn-gradient text-white{% endif %}">
+                         {{ cat_name }}
+                    </a>
+                    {% endfor %}
+               </div>
+          </div>
+     </div>
 
-<!-- Categories -->
-<div class="col-lg-2">
-     {% include "components/categories.html" %}
+     <div class="col-lg-9">
+          <h3 class="fw-bold mb-1">All Items</h3>
+          <p class="text-muted mb-4">{{ items.count }} items available</p>
+
+          <div class="row g-4" id="itemGrid">
+               {% include 'components/item_results.html' %}
+          </div>
+     </div>
 </div>
-
-<!-- Items -->
-<div class="col-lg-10">
-
-<h3>All Items</h3>
-
-<div id="items-container" class="row g-4">
-
-{% for item in items %}
-<div class="col-md-4">
-     {% include "components/item_card.html" %}
-</div>
-{% endfor %}
-
-</div>
-</div>
-</div>
-</div>
-
 {% endblock %}

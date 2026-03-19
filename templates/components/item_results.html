@@ -1,5 +1,29 @@
 {% for item in items %}
-<div class="col-md-4">
-     {% include "partials/item_card.html" %}
+<div class="col-md-4 col-sm-6">
+     <div class="card card-custom item-card h-100 p-2 page-enter">
+          <div class="bg-light rounded-3 d-flex align-items-center justify-content-center" style="height: 200px;">
+               {% if item.thumbnail %}
+               <img src="{{ item.thumbnail.url }}" class="img-fluid rounded-3"
+                    style="max-height: 100%; object-fit: cover;">
+               {% else %}
+               <i class="fa-regular fa-image fa-3x text-muted opacity-50"></i>
+               {% endif %}
+          </div>
+
+          <div class="card-body px-2 pb-1">
+               <h6 class="card-title fw-bold mb-1">{{ item.title }}</h6>
+               <small class="text-muted d-block mb-3">by {{ item.seller.first_name|default:item.seller.email }}</small>
+
+               <div class="d-flex justify-content-between align-items-center mt-auto">
+                    <span class="fs-5 fw-bold text-danger">${{ item.price }}</span>
+                    <span class="pill-category">{{ item.get_category_display }}</span>
+               </div>
+               <a href="{% url 'market:item' item.itemID %}" class="stretched-link"></a>
+          </div>
+     </div>
+</div>
+{% empty %}
+<div class="col-12 text-center py-5">
+     <p class="text-muted">No items found matching your search.</p>
 </div>
 {% endfor %}

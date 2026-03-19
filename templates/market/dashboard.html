@@ -1,26 +1,111 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="mb-4">
+     <h2 class="fw-bold">Dashboard</h2>
+     <p class="text-muted">Manage your account and listings</p>
+</div>
 
-<h2>Dashboard</h2>
+<div class="row g-4 mb-5">
+     <div class="col-md-3">
+          <div class="card-custom p-4 d-flex flex-column h-100">
+               <div class="text-muted mb-2"><i
+                         class="fa-solid fa-dollar-sign d-inline-block bg-danger bg-opacity-10 text-danger p-2 rounded me-2"></i>
+                    Balance</div>
+               <h2 class="fw-bold m-0">${{ balance }}</h2>
+          </div>
+     </div>
+     <div class="col-md-3">
+          <div class="card-custom p-4 d-flex flex-column h-100">
+               <div class="text-muted mb-2"><i
+                         class="fa-solid fa-box d-inline-block bg-primary bg-opacity-10 text-primary p-2 rounded me-2"></i>
+                    My Listings</div>
+               <h2 class="fw-bold m-0">{{ listings.count }}</h2>
+          </div>
+     </div>
+     <div class="col-md-3">
+          <div class="card-custom p-4 d-flex flex-column h-100">
+               <div class="text-muted mb-2"><i
+                         class="fa-solid fa-bag-shopping d-inline-block bg-info bg-opacity-10 text-info p-2 rounded me-2"></i>
+                    Purchases</div>
+               <h2 class="fw-bold m-0">{{ purchases.count }}</h2>
+          </div>
+     </div>
+     <div class="col-md-3">
+          <div class="card-custom p-4 d-flex flex-column h-100">
+               <div class="text-muted mb-2"><i
+                         class="fa-solid fa-arrow-trend-up d-inline-block bg-success bg-opacity-10 text-success p-2 rounded me-2"></i>
+                    Sales</div>
+               <h2 class="fw-bold m-0">{{ sales.count }}</h2>
+          </div>
+     </div>
+</div>
 
 <div class="row g-4">
+     <div class="col-lg-4">
+          <div class="card-custom p-4 mb-4">
+               <h5 class="fw-bold mb-3">Profile Information</h5>
+               <div class="mb-3">
+                    <small class="text-muted d-block">Student ID</small>
+                    <strong>{{ user.student_id }}</strong>
+               </div>
+               <div class="mb-3">
+                    <small class="text-muted d-block">Email</small>
+                    <strong>{{ user.email }}</strong>
+               </div>
+               <a href="{% url 'market:account' %}" class="btn btn-outline-dark btn-sm rounded-pill mt-2">Edit
+                    Profile</a>
+          </div>
 
-<div class="col-md-3">
-<div class="card stat-card">
-Balance
-<h3>${{ user.account_balance }}</h3>
-</div>
-</div>
+          <div class="card-custom p-4 bg-danger bg-opacity-10 border border-danger border-opacity-25">
+               <h5 class="fw-bold mb-3">Top Up Balance</h5>
+               <form action="{% url 'market:account' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="number" name="amount" class="form-control form-control-custom mb-3"
+                         placeholder="Enter amount">
+                    <button type="submit" name="topup" class="btn btn-gradient w-100">Add Funds</button>
+               </form>
+          </div>
+     </div>
 
-<div class="col-md-3">
-<div class="card stat-card">
-My Listings
-<h3>{{ listings.count }}</h3>
-</div>
-</div>
+     <div class="col-lg-8">
+          <div class="card-custom p-4 mb-4">
+               <h5 class="fw-bold mb-3">My Current Listings</h5>
+               {% if listings %}
+               <ul class="list-group list-group-flush">
+                    {% for item in listings %}
+                    <li class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                         <div>
+                              <h6 class="mb-0">{{ item.title }}</h6>
+                              <small class="text-muted">Listed {{ item.listed_at|date:"M d, Y" }}</small>
+                         </div>
+                         <span class="fw-bold">${{ item.price }}</span>
+                    </li>
+                    {% endfor %}
+               </ul>
+               {% else %}
+               <div class="text-center py-4 text-muted">No active listings</div>
+               {% endif %}
+          </div>
 
-</div>
+          <div class="card-custom p-4">
+               <h5 class="fw-bold mb-3">Recent Purchases</h5>
+               {% if purchases %}
+               <ul class="list-group list-group-flush">
+                    {% for tx in purchases %}
+                    <li class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                         <div>
+                              <h6 class="mb-0">{{ tx.item.title }}</h6>
+                              <small class="text-muted">from {{ tx.item.seller.email }}</small>
+                         </div>
+                         <span class="fw-bold">${{ tx.amount }}</span>
+                    </li>
+                    {% endfor %}
+               </ul>
+               {% else %}
+               <div class="text-center py-4 text-muted">No recent purchases</div>
+               {% endif %}
+          </div>
+     </div>
 </div>
 {% endblock %}
