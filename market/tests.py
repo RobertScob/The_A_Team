@@ -99,6 +99,10 @@ class CampusMarketplaceTests(TestCase):
 
     def test_ajax_search_view(self):
         """Test the search_items component view used by jQuery."""
+        
+        self.client = Client()
+        self.client.login(email=self.user.email, password=self.user_password)
+    
         response = self.client.get(reverse('market:search_items'), {'q': 'Textbook'})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'components/item_results.html')
