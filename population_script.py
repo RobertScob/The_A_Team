@@ -81,7 +81,7 @@ def populate():
         ("Graphing Calculator", "Casio, essential for Maths 1.", "STATIONERY", 20.00, "calculator"),
         ("Winter Parka", "You'll need this for the Glasgow horizontal rain.", "CLOTHING", 60.00, "parka"),
         ("Toaster", "Two-slot toaster, works perfectly.", "ELECTRONICS", 10.00, "toaster"),
-        ("Introduction to Psychology", "Barely used textbook.", "BOOKS", 30.00, "textbook"),
+        ("Introduction to Psychology", "Barely used textbook.", "BOOKS", 30.00, "textbook-psy.jpg"),
         ("Gaming Mouse", "Logitech, used for 6 months.", "ELECTRONICS", 25.00, "mouse"),
         ("Buckfast", "My mate passed out before he could finish the bottle, so just selling the rest off.", "OTHER", 5.00, "buckfast.jpg"),
         ("GUSA Fleece Jacket", "Decided to become a chud. Stopped doing any sports or going outside.", "CLOTHING", 20.00, "fleece"),
