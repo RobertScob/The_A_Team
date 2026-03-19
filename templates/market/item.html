@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row page-enter mb-5">
+     <div class="col-md-6 mb-4 mb-md-0">
+          <div class="card-custom bg-light d-flex align-items-center justify-content-center overflow-hidden h-100"
+               style="min-height: 400px;">
+               {% if item.thumbnail %}
+               <img src="{{ item.thumbnail.url }}" class="img-fluid w-100 h-100" style="object-fit: cover;"
+                    alt="{{ item.title }}">
+               {% else %}
+               <i class="fa-regular fa-image fa-5x text-muted opacity-25"></i>
+               {% endif %}
+          </div>
+     </div>
+
+     <div class="col-md-6 ps-md-5 d-flex flex-column">
+          <div class="mb-2">
+               <span class="pill-category fs-6 px-3 py-1">{{ item.get_category_display }}</span>
+          </div>
+
+          <h1 class="fw-bold mt-2 mb-3">{{ item.title }}</h1>
+          <h2 class="text-danger fw-bold mb-4">${{ item.price }}</h2>
+
+          <div class="d-flex align-items-center p-3 bg-white rounded-3 border mb-4 shadow-sm">
+               <div class="bg-gradient text-white rounded-circle d-flex align-items-center justify-content-center me-3"
+                    style="width: 45px; height: 45px; background: var(--primary-grad);">
+                    <i class="fa-solid fa-user"></i>
+               </div>
+               <div>
+                    <small class="text-muted d-block lh-1">Seller</small>
+                    <strong class="mb-0">{{ item.seller.first_name }} {{ item.seller.last_name }}</strong>
+               </div>
+          </div>
+
+          <div class="mb-5 flex-grow-1">
+               <h5 class="fw-bold mb-2">Description</h5>
+               <p class="text-muted" style="line-height: 1.7;">
+                    {{ item.description|default:"No description provided by the seller." }}
+               </p>
+               <p class="text-muted small mt-3"><i class="fa-regular fa-clock me-1"></i> Listed on {{
+                    item.listed_at|date:"F d, Y" }}</p>
+          </div>
+
+          <div class="mt-auto">
+               {% if is_seller %}
+               <div class="alert alert-info border-0 bg-info bg-opacity-10 d-flex align-items-center">
+                    <i class="fa-solid fa-circle-info me-2 text-info"></i> You are the seller of this item.
+               </div>
+               <button class="btn btn-outline-dark w-100 py-3 rounded-3 fw-bold">Edit Listing</button>
+               {% elif item.status == "SOLD" %}
+               <button class="btn btn-secondary w-100 py-3 rounded-3 fw-bold" disabled>Item Sold</button>
+               {% else %}
+               <form action="{% url 'market:purchase_item' item.itemID %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-gradient w-100 py-3 rounded-3 fw-bold shadow">
+                         <i class="fa-solid fa-cart-shopping me-2"></i> Purchase Item
+                    </button>
+               </form>
+               {% endif %}
+          </div>
+     </div>
+</div>
+{% endblock %}
