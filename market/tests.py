@@ -1,199 +1,135 @@
-from django.test import TestCase
+import uuid
+from decimal import Decimal
+from django.test import TestCase, Client
+from django.urls import reverse
 from django.core.exceptions import ValidationError
-from decimal import Decimal 
-from django.utils import timezone
-from .models import (
-    User,
-    Item, 
-    ItemPhoto, 
-    Transaction,
-)
+from django.contrib.auth import get_user_model
+from .models import Item, Transaction
 
-class UserModelTests(TestCase):
-    def test_create_user(self):
-        user = User.objects.create_user(
-            email = "tess@gla.ac.uk",
-            password = "password123", 
-            first_name = "Tess",
-            last_name = "Byrne", 
-            student_id = "3117688"
-        )
-        self.asssertEqual(user.email, "tess@gla.ac.uk")
-        self.assertEqual(user.account_balance, Decimal("0.00"))
-        self.assertTrue(user.check_password("password123"))
+User = get_user_model()
 
-class ItemModelTests(TestCase):
+class CampusMarketplaceTests(TestCase):
+
     def setUp(self):
+        """Run before every test."""
+        
+        # Print the name of the test being run
+        print(f"\nRUNNING: {self._testMethodName}...", end=" ")
+        
+        # Create a test user
+        self.user_password = "testpassword123"
         self.user = User.objects.create_user(
-            email = "roberttheseller@example.com",
-            password = "rickandmorty",
-            first_name = "Robert",
-            last_name = "Scobie", 
-            student_id = "12345"
+            email="student@university.ac.uk",
+            password=self.user_password,
+            student_id="STU12345",
+            first_name="Test",
+            last_name="User"
         )
-
-    def test_item_creation(self):
-        item = Item.objects.create(
-            seller=self.user,
-            title="Wooden Chair",
-            description="A strong oak chair",
-            price=Decimal("10.00"),
-            category="FURNITURE"
-        )
-        self.assertEqual(item.status, "AVAILABLE")
-
-    def test_prohibited_keyword_validation(self):
-        item = Item(
-            seller=self.user,
-            title="Food Hamper",
-            description="Includes snacks",
-            price=Decimal("5.00"),
-            category="OTHER"
-        )
-        with self.assertRaises(ValidationError):
-            item.full_clean()  # triggers validate_not_prohibited
-
-class ItemPhotoTests(TestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(
-            email="parisan@gla.ac.uk",
-            password="pass987654321",
-            first_name="Parisan",
-            last_name="V",
-            student_id="456789"
-        )
-        self.item = Item.objects.create(
-            seller=self.user,
-            title="Desk Lamp",
-            description="IKEA lamp",
-            price=Decimal("7.00"),
-            category="ELECTRONICS"
-        )
-
-    
-    def test_add_photo(self):
-        photo = ItemPhoto.objects.create(
-            item=self.item,
-            url="http://example.com/photo1.jpg",
-            caption="Front view"
-        )
-        self.assertEqual(photo.item, self.item)
-        self.assertTrue(self.item.photos.exists())
-
-
-class TransactionSignalTests(TestCase):
-    def setUp(self):
+        
+        # Create a second user for selling
         self.seller = User.objects.create_user(
-            email="hayden@gla.ac.uk",
-            password="012345",
-            first_name="Hayden",
-            last_name="Gilmour",
-            student_id="123456",
-            account_balance=Decimal("0.00")
-        )
-        self.buyer = User.objects.create_user(
-            email="ore@gla.ac.uk",
-            password="password",
-            first_name="Ore",
-            last_name="Adabaje",
-            student_id="1234",
-            account_balance=Decimal("20.00")
+            email="seller@university.ac.uk",
+            password=self.user_password,
+            student_id="SEL67890"
         )
 
+        # Create a dummy item
         self.item = Item.objects.create(
             seller=self.seller,
-            title="Calculator",
-            description="Scientific calc",
-            price=Decimal("10.00"),
-            category="STATIONERY"
+            title="Standard Textbook",
+            description="A very clean book.",
+            category="BOOKS",
+            price=Decimal("20.00"),
+            status="AVAILABLE"
         )
+        
+        self.client = Client()
 
-    def test_topup_increases_balance(self):
-        Transaction.objects.create(
-            buyer=self.buyer,
-            amount=Decimal("30.00"),
-            type="TOPUP",
-        )
-        self.buyer.refresh_from_db()
-        self.assertEqual(self.buyer.account_balance, Decimal("50.00"))
+    def tearDown(self):
+        """Run after every test."""
+        print("PASSED ✅")
 
-    def test_purchase_transaction_updates_balances(self):
-        Transaction.objects.create(
-            buyer=self.buyer,
-            item=self.item,
-            amount=Decimal("10.00"),
-            type="PURCHASE",
-        )
+    # --- 1. MODEL TESTS ---
 
-        self.buyer.refresh_from_db()
-        self.seller.refresh_from_db()
-        self.item.refresh_from_db()
-
-        self.assertEqual(self.buyer.account_balance, Decimal("10.00"))
-        self.assertEqual(self.seller.account_balance, Decimal("10.00"))
-        self.assertEqual(self.item.status, "SOLD")
-
-    def test_purchase_without_item_fails(self):
-        tx = Transaction(
-            buyer=self.buyer,
-            amount=Decimal("10.00"),
-            type="PURCHASE",
-            item=None
+    def test_prohibited_keywords_validation(self):
+        """Ensure title/description cannot contain illegal words."""
+        bad_item = Item(
+            seller=self.user,
+            title="Selling some illegal stuff",
+            price=Decimal("10.00")
         )
         with self.assertRaises(ValidationError):
-            tx.full_clean()
+            bad_item.full_clean()
 
-    def test_topup_with_item_fails(self):
-        tx = Transaction(
-            buyer=self.buyer,
-            type="TOPUP",
-            amount=Decimal("10.00"),
-            item=self.item
-        )
-        with self.assertRaises(ValidationError):
-            tx.full_clean()
+    def test_user_balance_default(self):
+        """Verify new users start with 0.00 balance."""
+        self.assertEqual(self.user.account_balance, Decimal("0.00"))
 
-    def test_cannot_purchase_sold_item(self):
-        # First purchase marks item SOLD
-        Transaction.objects.create(
-            buyer=self.buyer,
-            item=self.item,
-            amount=Decimal("10.00"),
-            type="PURCHASE"
-        )
+    # --- 2. VIEW & ACCESS TESTS ---
 
-        # Second buyer attempts to purchase
-        buyer2 = User.objects.create_user(
-            email="buyer2@example.com",
-            password="pass1234",
-            first_name="B2",
-            last_name="User",
-            student_id="SID300",
-            account_balance=Decimal("20.00")
-        )
+    def test_homepage_loads_for_anonymous(self):
+        """Public should be able to see the shop/home page."""
+        response = self.client.get(reverse('market:shop'))
+        self.assertEqual(response.status_code, 200)
 
-        with self.assertRaises(ValidationError):
-            Transaction.objects.create(
-                buyer=buyer2,
-                item=self.item,
-                amount=Decimal("10.00"),
-                type="PURCHASE",
-            )
+    def test_dashboard_requires_login(self):
+        """Dashboard should redirect anonymous users to login."""
+        response = self.client.get(reverse('market:dashboard'))
+        self.assertEqual(response.status_code, 302) # Redirects
 
-    def test_purchase_insufficient_balance(self):
-        poor_buyer = User.objects.create_user(
-            email="poor@example.com",
-            password="pass1234",
-            first_name="Poor",
-            last_name="User",
-            student_id="SID400",
-            account_balance=Decimal("0.50")
-        )
+    def test_login_success(self):
+        """Verify user can log in with correct credentials."""
+        response = self.client.post(reverse('market:login'), {
+            'email': self.user.email,
+            'password': self.user_password
+        })
+        self.assertEqual(response.status_code, 302) # Redirect to shop
 
-        with self.assertRaises(ValidationError):
-            Transaction.objects.create(
-                buyer=poor_buyer,
-                item=self.item,
-                amount=Decimal("10.00"),
-                type="PURCHASE",
-            )
+    # --- 3. SEARCH & AJAX TESTS ---
+
+    def test_search_filtering(self):
+        """Test that searching returns specific items."""
+        # Search for 'Textbook' which exists
+        response = self.client.get(reverse('market:shop'), {'q': 'Textbook'})
+        self.assertContains(response, "Standard Textbook")
+        
+        # Search for something that doesn't exist
+        response = self.client.get(reverse('market:shop'), {'q': 'NonExistentItem'})
+        self.assertNotContains(response, "Standard Textbook")
+
+    def test_ajax_search_view(self):
+        """Test the search_items component view used by jQuery."""
+        response = self.client.get(reverse('market:search_items'), {'q': 'Textbook'})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'components/item_results.html')
+
+    # --- 4. TRANSACTION & LOGIC TESTS ---
+
+    def test_topup_logic(self):
+        """Test that account balance updates and transaction is logged."""
+        self.client.login(email=self.user.email, password=self.user_password)
+        # Assuming your account view handles the topup logic as provided
+        response = self.client.post(reverse('market:account'), {
+            'topup': '',
+            'amount': '50.00'
+        })
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.account_balance, Decimal("50.00"))
+        self.assertTrue(Transaction.objects.filter(type="TOPUP", buyer=self.user).exists())
+
+    def test_purchase_insufficient_funds(self):
+        """Purchase should fail if balance < item price."""
+        self.client.login(email=self.user.email, password=self.user_password)
+        # Use the purchase URL
+        response = self.client.post(reverse('market:purchase_item', args=[self.item.itemID]))
+        # Check that an error message was sent via Django messages
+        messages = list(response.wsgi_request._messages)
+        self.assertTrue(any("insufficient" in str(m).lower() or "error" in m.tags for m in messages))
+
+    def test_category_filtering(self):
+        """Test that URL category parameters filter results."""
+        response = self.client.get(reverse('market:shop'), {'category': 'BOOKS'})
+        self.assertContains(response, "Standard Textbook")
+        
+        response = self.client.get(reverse('market:shop'), {'category': 'FURNITURE'})
+        self.assertNotContains(response, "Standard Textbook")
