@@ -210,7 +210,7 @@ def account(request):
 
      return render(
           request,
-          "mock/account.html",
+          "market/account.html",
           {
                "profile_form": profile_form,
                "topup_form": topup_form,
