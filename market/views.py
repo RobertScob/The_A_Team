@@ -168,7 +168,7 @@ def purchase_item(request, itemID):
      except Exception as e:
           messages.error(request, str(e))
 
-     return redirect("market:item_form", itemID=itemID)
+     return redirect("market:item", itemID=itemID)
 
 @login_required
 def account(request):
