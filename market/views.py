@@ -16,7 +16,7 @@ from .forms import (
 )
 from .services import process_purchase
 
-
+@login_required
 def shop(request):
      query = request.GET.get("q", "")
      category = request.GET.get("category", "")
